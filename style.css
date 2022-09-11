@@ -8,8 +8,10 @@ body {
 }
 
 .container {
+    display: flex;
     background-color: #e63946;
     width: 500px;
     height: 500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #ad2a35;
 }
