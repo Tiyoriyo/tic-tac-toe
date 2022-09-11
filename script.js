@@ -38,6 +38,5 @@ const GAMEBOARD = (function() {
     };
 
     render();
-    asd
 })();
 
