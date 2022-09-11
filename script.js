@@ -1,5 +1,9 @@
 const GAMEBOARD = (function() {
-    let gameboard = ['x', 'o', null, null, null, null, null, null, null];
+    let gameboard = [
+        'x', 'o', 'x',
+         'o', 'x', 'o',
+          'x', 'o', 'x'
+        ];
 
     function render() {
         let container = document.querySelector('.container');
@@ -10,10 +14,7 @@ const GAMEBOARD = (function() {
         });
 
         function createBox(value) {
-            let box = document.createElement('div');
-            let boxWidth = container.offsetWidth / 3;
-            let boxHeight = container.offsetHeight / 3;
-            
+            let box = document.createElement('div');        
 
             if (value === 'x') {
                 box.textContent = 'X';
