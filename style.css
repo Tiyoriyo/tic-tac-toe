@@ -8,10 +8,17 @@ body {
 }
 
 .container {
-    display: flex;
     background-color: #e63946;
     width: 500px;
     height: 500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border: 1px solid #ad2a35;
+}
+
+.canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    flex-wrap: wrap;
+    gap: 5px;
 }
