@@ -1,8 +1,8 @@
 const GAMEBOARD = (function() {
     let gameboard = [
-        'x', 'o', 'x',
-         'o', 'x', 'o',
-          'x', 'o', 'x'
+        null, null, null,
+         null, null, null,
+          null, null, null
         ];
 
     function render() {
@@ -15,28 +15,17 @@ const GAMEBOARD = (function() {
 
         function createBox(value) {
             let box = document.createElement('div');        
-
-            if (value === 'x') {
-                box.textContent = 'X';
-                box.style.width = '1fr';
-                box.style.height = '1fr';
-                box.className = 'box';
-                canvas.appendChild(box);
-            } else if (value === 'o') {
-                box.textContent = 'O';
-                box.style.width = '1fr';
-                box.style.height = '1fr';
-                box.className ='box';
-                canvas.appendChild(box);
-            } else {
-                box.style.width = '1fr';
-                box.style.height = '1fr';
-                box.className = 'box';
-                canvas.appendChild(box);
-            }
+            box.style.width = '1fr';
+            box.style.height = '1fr';
+            box.className = 'box';
+            canvas.appendChild(box);
         }
     };
 
     render();
+
+    function makeMove() {
+
+    }
 })();
 
