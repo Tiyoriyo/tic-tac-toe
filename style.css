@@ -27,7 +27,7 @@ body {
     gap: 15px;
 }
 
-.button-1, .button-2 {
+.button-1, .button-2, .tX, .tY {
     appearance: none;
     border: 1px solid #af7729;
     border-radius: 3px;

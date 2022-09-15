@@ -25,16 +25,32 @@ const GAMEBOARD = (function() {
         });
     };
 
+    render();
+
     (function gameType() {
         let buttons = document.querySelectorAll('.buttons');
-        let computerButton = document.querySelector('.button-1');
-        let playerButton = document.querySelector('.button-2');
+        let playerButton = document.querySelector('.button-1');
+        let bottom = document.querySelector('.bottom');
 
-        computerButton.addEventListener('click', () => {
+        playerButton.addEventListener('click', () => {
+            let teamX = document.createElement('button');
+            let teamY = document.createElement('button');
+
+            teamX.className = 'tX';
+            teamX.textContent = 'X';
+            teamY.className = 'tY';
+            teamY.textContent = 'Y';
+        
             buttons.forEach(button => button.remove());
-            makeYourMove();
+            bottom.appendChild(teamX);
+            bottom.appendChild(teamY);
+            
         });
     })();
+
+    const Player = function() {
+
+    }
 
     function makeMove(box) {
         let boxNodePos = box.id;
@@ -55,10 +71,6 @@ const GAMEBOARD = (function() {
         bottom.appendChild(div);
     }
 
-    return {
-        render,
-    }
 })();
 
-GAMEBOARD.render();
 
