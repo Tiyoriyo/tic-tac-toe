@@ -31,7 +31,11 @@ const GAMEBOARD = (function() {
 
     function makeMove(box) {
         const boxes = document.querySelectorAll('.box');
-        
+        let boxNodePos = box.id;
+        box.textContent = 'X';
+        gameboard[boxNodePos] = 'X';
+        console.log(gameboard);
+        console.log(box.id);
     }
 })();
 
