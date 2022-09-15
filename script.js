@@ -28,20 +28,22 @@ const GAMEBOARD = (function() {
     render();
 
     (function gameType() {
-        let buttons = document.querySelectorAll('.buttons');
+        let typeButtons = document.querySelectorAll('.buttons');
         let playerButton = document.querySelector('.button-1');
         let bottom = document.querySelector('.bottom');
 
         playerButton.addEventListener('click', () => {
+            typeButtons.forEach(button => button.remove());
+
             let teamX = document.createElement('button');
             let teamY = document.createElement('button');
+            
 
             teamX.className = 'tX';
             teamX.textContent = 'X';
             teamY.className = 'tY';
             teamY.textContent = 'Y';
-        
-            buttons.forEach(button => button.remove());
+
             bottom.appendChild(teamX);
             bottom.appendChild(teamY);
             
