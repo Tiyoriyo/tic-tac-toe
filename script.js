@@ -3,7 +3,7 @@ const GAMEBOARD = (function() {
         null, null, null,
          null, null, null,
           null, null, null
-        ];
+    ];
 
     function render() {
         let container = document.querySelector('.container');
@@ -27,15 +27,22 @@ const GAMEBOARD = (function() {
         
     };
 
-    render();
-
     function makeMove(box) {
-        const boxes = document.querySelectorAll('.box');
         let boxNodePos = box.id;
         box.textContent = 'X';
         gameboard[boxNodePos] = 'X';
-        console.log(gameboard);
-        console.log(box.id);
+    }
+
+    function switchTurnsComputer(type) {
+        if(type === 'computer') {
+            
+        }
+    }
+
+    return {
+        render,
     }
 })();
+
+GAMEBOARD.render();
 
