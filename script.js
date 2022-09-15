@@ -25,9 +25,6 @@ const GAMEBOARD = (function() {
             box.className = 'box';
             box.setAttribute('id', `${i}`);
             i++;
-            box.addEventListener('click', (e) => {
-                makeMove(e.target);
-            });
             canvas.appendChild(box);
         });
     };
@@ -43,18 +40,28 @@ const GAMEBOARD = (function() {
             typeButtons.forEach(button => button.remove());
 
             let teamX = document.createElement('button');
-            let teamY = document.createElement('button');
+            let teamO = document.createElement('button');
             
 
             teamX.className = 'tX team-button';
             teamX.textContent = 'X';
-            teamY.className = 'tY team-button';
-            teamY.textContent = 'Y';
+            teamO.className = 'tO team-button';
+            teamO.textContent = 'O';
 
             teamX.addEventListener('click', () => {
                 let teamButtons = document.querySelectorAll('.team-button')
                 const PLAYER1 = new PLAYER('x', 'Player 1');
-                const PLAYER2 = new PLAYER('y', 'Player 2');
+                const PLAYER2 = new PLAYER('o', 'Player 2');
+                console.log(PLAYER1);
+                console.log(PLAYER2);
+
+                teamButtons.forEach(button => button.remove());
+            });
+
+            teamO.addEventListener('click', () => {
+                let teamButtons = document.querySelectorAll('.team-button')
+                const PLAYER1 = new PLAYER('o', 'Player 1');
+                const PLAYER2 = new PLAYER('x', 'Player 2');
                 console.log(PLAYER1);
                 console.log(PLAYER2);
 
@@ -63,7 +70,7 @@ const GAMEBOARD = (function() {
 
 
             bottom.appendChild(teamX);
-            bottom.appendChild(teamY);
+            bottom.appendChild(teamO);
             
         });
     })();
