@@ -1,8 +1,16 @@
 const GAMEBOARD = (function() {
-    let gameboard = [
+    const gameboard = [
         null, null, null,
          null, null, null,
           null, null, null
+    ];
+
+    const WINNING_COMBINATIONS = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 4, 8],
+        [2, 4, 6]
     ];
 
     function render() {
@@ -34,15 +42,23 @@ const GAMEBOARD = (function() {
 
         playerButton.addEventListener('click', () => {
             typeButtons.forEach(button => button.remove());
+            let teamButtons = document.querySelectorAll('team-button')
 
             let teamX = document.createElement('button');
             let teamY = document.createElement('button');
             
 
-            teamX.className = 'tX';
+            teamX.className = 'tX team-button';
             teamX.textContent = 'X';
-            teamY.className = 'tY';
+            teamY.className = 'tY team-button';
             teamY.textContent = 'Y';
+
+            teamX.addEventListener('click', () => {
+                const PLAYER1 = new PLAYER('x');
+                const PLAYER2 = new PLAYER(PLAYER1.enemy);
+                console.log(PLAYER1);
+                console.log(PLAYER2);
+            });
 
             bottom.appendChild(teamX);
             bottom.appendChild(teamY);
@@ -50,8 +66,15 @@ const GAMEBOARD = (function() {
         });
     })();
 
-    const Player = function() {
-
+    const PLAYER = function(team) {
+        this.team = team;
+        this.enemy = (() => {
+            if(team === 'x') {
+                return 'y';
+            } else {
+                return 'x';
+            }
+        })();
     }
 
     function makeMove(box) {
