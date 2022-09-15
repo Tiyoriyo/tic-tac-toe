@@ -14,7 +14,6 @@ const GAMEBOARD = (function() {
     ];
 
     function render() {
-        let container = document.querySelector('.container');
         let canvas = document.querySelector('.canvas');
         let i = 0;
         
@@ -42,7 +41,6 @@ const GAMEBOARD = (function() {
 
         playerButton.addEventListener('click', () => {
             typeButtons.forEach(button => button.remove());
-            let teamButtons = document.querySelectorAll('team-button')
 
             let teamX = document.createElement('button');
             let teamY = document.createElement('button');
@@ -54,11 +52,15 @@ const GAMEBOARD = (function() {
             teamY.textContent = 'Y';
 
             teamX.addEventListener('click', () => {
-                const PLAYER1 = new PLAYER('x');
-                const PLAYER2 = new PLAYER(PLAYER1.enemy);
+                let teamButtons = document.querySelectorAll('.team-button')
+                const PLAYER1 = new PLAYER('x', 'Player 1');
+                const PLAYER2 = new PLAYER('y', 'Player 2');
                 console.log(PLAYER1);
                 console.log(PLAYER2);
+
+                teamButtons.forEach(button => button.remove());
             });
+
 
             bottom.appendChild(teamX);
             bottom.appendChild(teamY);
@@ -66,34 +68,15 @@ const GAMEBOARD = (function() {
         });
     })();
 
-    const PLAYER = function(team) {
+    const PLAYER = function(team, name) {
         this.team = team;
-        this.enemy = (() => {
-            if(team === 'x') {
-                return 'y';
-            } else {
-                return 'x';
-            }
-        })();
+        this.name = name;
     }
 
     function makeMove(box) {
         let boxNodePos = box.id;
         box.textContent = 'X';
         gameboard[boxNodePos] = 'X';
-    }
-
-    function switchTurnsComputer(type) {
-        if(type === 'computer') {
-            
-        }
-    }
-
-    function makeYourMove() {
-        let bottom = document.querySelector('.bottom');
-        let div = document.createElement('div');
-        div.textContent = 'Make Your Move!';
-        bottom.appendChild(div);
     }
 
 })();
