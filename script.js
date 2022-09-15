@@ -23,9 +23,17 @@ const GAMEBOARD = (function() {
             });
             canvas.appendChild(box);
         });
-
-        
     };
+
+    (function gameType() {
+        let buttons = document.querySelectorAll('.buttons');
+        let computerButton = document.querySelector('.button-1');
+        let playerButton = document.querySelector('.button-2');
+
+        computerButton.addEventListener('click', () => {
+            buttons.forEach(button => button.remove());
+        });
+    })();
 
     function makeMove(box) {
         let boxNodePos = box.id;
@@ -37,6 +45,10 @@ const GAMEBOARD = (function() {
         if(type === 'computer') {
             
         }
+    }
+
+    function makeYourMove() {
+        let div = document.createElement('div');
     }
 
     return {
