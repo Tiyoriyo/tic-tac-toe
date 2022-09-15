@@ -32,6 +32,7 @@ const GAMEBOARD = (function() {
 
         computerButton.addEventListener('click', () => {
             buttons.forEach(button => button.remove());
+            makeYourMove();
         });
     })();
 
@@ -48,7 +49,10 @@ const GAMEBOARD = (function() {
     }
 
     function makeYourMove() {
+        let bottom = document.querySelector('.bottom');
         let div = document.createElement('div');
+        div.textContent = 'Make Your Move!';
+        bottom.appendChild(div);
     }
 
     return {
