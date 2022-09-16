@@ -80,6 +80,8 @@ const GAMEBOARD = (function() {
             P1XCHOICE.type = 'radio';
             P1XCHOICE.value = 'X';
             P1XCHOICE.name = 'P1Choice'
+            P1XCHOICE.classList = 'P1Choice';
+
             const P1OCHOICE_LABEL = document.createElement('p');
             P1OCHOICE_LABEL.textContent = 'O';
 
@@ -87,6 +89,7 @@ const GAMEBOARD = (function() {
             P1OCHOICE.type = 'radio';
             P1OCHOICE.value = 'O';
             P1OCHOICE.name = 'P1Choice';
+            P1OCHOICE.classList = 'P1Choice';
             
 
             P1CHOICESET.appendChild(P1XCHOICE_LABEL);
@@ -116,6 +119,8 @@ const GAMEBOARD = (function() {
             P2XCHOICE.type = 'radio';
             P2XCHOICE.value = 'X';
             P2XCHOICE.name = 'P2Choice'
+            P2XCHOICE.className = 'P2Choice';
+
             const P2OCHOICE_LABEL = document.createElement('p');
             P2OCHOICE_LABEL.textContent = 'O';
 
@@ -123,6 +128,7 @@ const GAMEBOARD = (function() {
             P2OCHOICE.type = 'radio';
             P2OCHOICE.value = 'O';
             P2OCHOICE.name = 'P2Choice';
+            P2OCHOICE.className = 'P2Choice';
             
 
             P2CHOICESET.appendChild(P2XCHOICE_LABEL);
@@ -145,9 +151,26 @@ const GAMEBOARD = (function() {
             const CONFIRM = document.createElement('button');
             CONFIRM.textContent = 'Confirm';
             CONFIRM.addEventListener('click', () => {
-                player1 = new Player(P1INPUT.value);
-                player2 = new Player(P2INPUT.value);
+                let P1Choice = null;
+                let P2Choice = null;
+
+                player1 = new Player(P1INPUT.value, P1Choice);
+                player2 = new Player(P2INPUT.value, P2Choice);
                 
+                const P1CHOICES = document.querySelectorAll('.P1Choice');
+                P1CHOICES.forEach((choice) => {
+                    if (choice.checked === true) {
+                        P1Choice = choice.value;
+                    }
+                });
+
+                const P2CHOICES = document.querySelectorAll('.P2Choice')
+                P2CHOICES.forEach((choice) => {
+                    if (choice.checked === true) {
+                        P2Choice = choice.value;
+                    }
+                });
+
                 let children = MAINCONTAINER.children;
                 Array.prototype.forEach.call(children, (child) => child.remove());
                 children[0].remove(); // Final remove() because forEach wasn't deleting every node
@@ -205,8 +228,9 @@ const GAMEBOARD = (function() {
 
     };
 
-    let Player = function(name) {
+    let Player = function(name, team) {
         this.name = name;
+        this.team = team;
     };
 
 })();
