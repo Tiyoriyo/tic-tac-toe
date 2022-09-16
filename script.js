@@ -56,8 +56,13 @@ const GAMEBOARD = (function() {
 
         const CANVAS = document.createElement('div');
         CANVAS.className = 'canvas';
+
+        const GAMETITLE = document.createElement('h1');
+        GAMETITLE.textContent = 'Tic-Tac-Toe'
+        GAMETITLE.className = 'game-title';
         
         CONTAINER.appendChild(CANVAS);
+        MAINCONTAINER.appendChild(GAMETITLE);
         MAINCONTAINER.appendChild(CONTAINER);
         
         let i = 0;
