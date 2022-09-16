@@ -14,6 +14,9 @@ const GAMEBOARD = (function() {
         [2, 4, 6]
     ];
 
+    var player1;
+    var player2;
+
     function intro() {
         (function createIntroItems() {
             const GAMETITLE = document.createElement('h1');
@@ -87,13 +90,10 @@ const GAMEBOARD = (function() {
                 const P1NAME = P1INPUT.value;
                 const P2NAME = P2INPUT.value;
 
-                console.log(P1NAME);
-                console.log(P2NAME);
-                
                 let children = MAINCONTAINER.children;
                 Array.prototype.forEach.call(children, (child) => child.remove());
                 children[0].remove(); // Final remove() because forEach wasn't deleting every node
-                render();
+                render(P1NAME, P2NAME);
             });
 
             const BACK = document.createElement('button');
@@ -114,7 +114,11 @@ const GAMEBOARD = (function() {
 
     intro();
 
-    function render() {
+    function render(P1Name, P2Name) {
+        player1 = new Player(P1Name);
+        console.table(player1);
+        player2 = new Player(P2Name);
+
         const CONTAINER = document.createElement('div');
         CONTAINER.className = 'container';
 
@@ -141,8 +145,17 @@ const GAMEBOARD = (function() {
             i++;
             CANVAS.appendChild(BOX);
         });
+
     };
 
+    let Player = function(name) {
+        this.name = name;
+    };
+
+    return {
+        player1,
+        player2
+    }
 })();
 
 
