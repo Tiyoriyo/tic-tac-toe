@@ -83,6 +83,18 @@ const GAMEBOARD = (function() {
 
             const CONFIRM = document.createElement('button');
             CONFIRM.textContent = 'Confirm';
+            CONFIRM.addEventListener('click', () => {
+                const P1NAME = P1INPUT.value;
+                const P2NAME = P2INPUT.value;
+
+                console.log(P1NAME);
+                console.log(P2NAME);
+                
+                let children = MAINCONTAINER.children;
+                Array.prototype.forEach.call(children, (child) => child.remove());
+                children[0].remove(); // Final remove() because forEach wasn't deleting every node
+                render();
+            });
 
             const BACK = document.createElement('button');
             BACK.textContent = 'Back';
