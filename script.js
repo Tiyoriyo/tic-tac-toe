@@ -45,9 +45,12 @@ const GAMEBOARD = (function() {
         })();
 
         function addPlayerInputs() {
+            // INPUTS UNDERNEATH 
+            // -- INPUT CONTAINER
             const INPUTSET = document.createElement('div');
             INPUTSET.style.display = 'flex';
 
+            // -- PLAYER INPUT CONTAINERS
             const P1DIV = document.createElement('div');
             P1DIV.style.display = 'flex';
             P1DIV.style.flexDirection = 'column';
@@ -55,23 +58,26 @@ const GAMEBOARD = (function() {
             P2DIV.style.display = 'flex';
             P2DIV.style.flexDirection = 'column';
 
+            // -- PLAYER 1 INPUT & LABEL
             const P1LABEL = document.createElement('label');
             P1LABEL.textContent = 'Player 1 Name'
             const P1INPUT = document.createElement('input');
             P1DIV.appendChild(P1LABEL);
             P1DIV.appendChild(P1INPUT);
 
+            // -- PLAYER 2 INPUT & LABEL
             const P2LABEL = document.createElement('label');
             P2LABEL.textContent = 'Player 2 Name';
             const P2INPUT = document.createElement('input');
             P2DIV.appendChild(P2LABEL);
             P2DIV.appendChild(P2INPUT);
 
-
+            // APPEND P1 & P2 DIVS TO INPUT CONTAINER
             INPUTSET.appendChild(P1DIV);
             INPUTSET.appendChild(P2DIV);
             MAINCONTAINER.appendChild(INPUTSET);
-
+            
+            // BUTTONS UNDERNEATH ------------
             const BUTTONSET = document.createElement('div');
             BUTTONSET.style.display = 'flex';
 
@@ -80,6 +86,11 @@ const GAMEBOARD = (function() {
 
             const BACK = document.createElement('button');
             BACK.textContent = 'Back';
+            BACK.addEventListener('click', () => {
+                let children = MAINCONTAINER.children;
+                Array.prototype.forEach.call(children, (child) => child.remove());
+                children[0].remove(); // Final remove() because forEach wasn't deleting every node
+            });
 
             BUTTONSET.appendChild(CONFIRM);
             BUTTONSET.appendChild(BACK);
