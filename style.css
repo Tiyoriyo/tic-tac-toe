@@ -13,6 +13,16 @@ body {
     height: 100vh;
 }
 
+.main-container, .top, .bottom {
+    margin: auto;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .container {
     display: flex;
     background-color: #e63946;
@@ -20,20 +30,6 @@ body {
     height: 500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border: 1px solid #ad2a35;
-}
-
-.bottom {
-    display: flex;
-    gap: 15px;
-}
-
-.button-1, .button-2, .tX, .tO {
-    appearance: none;
-    border: 1px solid #af7729;
-    border-radius: 3px;
-    padding: 5px 20px;
-    background-color: #FFB140;
-    
 }
 
 .canvas {
@@ -52,4 +48,9 @@ body {
     font-weight: bold;
     font-size: 50px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.bottom {
+    display: flex;
+    gap: 15px;
 }
