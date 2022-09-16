@@ -65,8 +65,21 @@ const GAMEBOARD = (function() {
             const P1LABEL = document.createElement('label');
             P1LABEL.textContent = 'Player 1 Name'
             const P1INPUT = document.createElement('input');
+            const P1CHOICESET = document.createElement('div');
+            P1CHOICESET.style.display = 'flex';
+            const P1XCHOICE = document.createElement('input');
+            P1XCHOICE.type = 'radio';
+            P1XCHOICE.value = 'X';
+            P1XCHOICE.name = 'P1Choice'
+            const P1OCHOICE = document.createElement('input');
+            P1OCHOICE.type = 'radio';
+            P1OCHOICE.value = 'O';
+            P1OCHOICE.name = 'P1Choice';
             P1DIV.appendChild(P1LABEL);
             P1DIV.appendChild(P1INPUT);
+            P1CHOICESET.appendChild(P1XCHOICE);
+            P1CHOICESET.appendChild(P1OCHOICE);
+            P1DIV.appendChild(P1CHOICESET);
 
             // -- PLAYER 2 INPUT & LABEL
             const P2LABEL = document.createElement('label');
