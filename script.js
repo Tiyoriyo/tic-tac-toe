@@ -76,7 +76,7 @@ const GAMEBOARD = (function() {
             INPUTSET.appendChild(P1DIV);
             INPUTSET.appendChild(P2DIV);
             MAINCONTAINER.appendChild(INPUTSET);
-            
+
             // BUTTONS UNDERNEATH ------------
             const BUTTONSET = document.createElement('div');
             BUTTONSET.style.display = 'flex';
@@ -90,6 +90,7 @@ const GAMEBOARD = (function() {
                 let children = MAINCONTAINER.children;
                 Array.prototype.forEach.call(children, (child) => child.remove());
                 children[0].remove(); // Final remove() because forEach wasn't deleting every node
+                intro(); // Restart module
             });
 
             BUTTONSET.appendChild(CONFIRM);
