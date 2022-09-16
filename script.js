@@ -87,13 +87,13 @@ const GAMEBOARD = (function() {
             const CONFIRM = document.createElement('button');
             CONFIRM.textContent = 'Confirm';
             CONFIRM.addEventListener('click', () => {
-                const P1NAME = P1INPUT.value;
-                const P2NAME = P2INPUT.value;
-
+                player1 = new Player(P1INPUT.value);
+                player2 = new Player(P2INPUT.value);
+                
                 let children = MAINCONTAINER.children;
                 Array.prototype.forEach.call(children, (child) => child.remove());
                 children[0].remove(); // Final remove() because forEach wasn't deleting every node
-                render(P1NAME, P2NAME);
+                render(); 
             });
 
             const BACK = document.createElement('button');
@@ -114,11 +114,10 @@ const GAMEBOARD = (function() {
 
     intro();
 
-    function render(P1Name, P2Name) {
-        player1 = new Player(P1Name);
-        console.table(player1);
-        player2 = new Player(P2Name);
+    function render() {
 
+        console.log(player1);
+        console.log(player2);  
         const CONTAINER = document.createElement('div');
         CONTAINER.className = 'container';
 
@@ -152,10 +151,6 @@ const GAMEBOARD = (function() {
         this.name = name;
     };
 
-    return {
-        player1,
-        player2
-    }
 })();
 
 
