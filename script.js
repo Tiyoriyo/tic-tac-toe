@@ -27,9 +27,8 @@ const GAMEBOARD = (function() {
             TWOPLAYER.textContent = 'Two Player';
             TWOPLAYER.className = 'intro-btn two-player-btn';
             TWOPLAYER.addEventListener('click', () => {
-                GAMETITLE.remove();
                 BUTTONSET.remove();
-                render();
+                addPlayerInputs();
             });
             BUTTONSET.appendChild(TWOPLAYER);
 
@@ -45,6 +44,47 @@ const GAMEBOARD = (function() {
             MAINCONTAINER.appendChild(BUTTONSET);
         })();
 
+        function addPlayerInputs() {
+            const INPUTSET = document.createElement('div');
+            INPUTSET.style.display = 'flex';
+
+            const P1DIV = document.createElement('div');
+            P1DIV.style.display = 'flex';
+            P1DIV.style.flexDirection = 'column';
+            const P2DIV = document.createElement('div');
+            P2DIV.style.display = 'flex';
+            P2DIV.style.flexDirection = 'column';
+
+            const P1LABEL = document.createElement('label');
+            P1LABEL.textContent = 'Player 1 Name'
+            const P1INPUT = document.createElement('input');
+            P1DIV.appendChild(P1LABEL);
+            P1DIV.appendChild(P1INPUT);
+
+            const P2LABEL = document.createElement('label');
+            P2LABEL.textContent = 'Player 2 Name';
+            const P2INPUT = document.createElement('input');
+            P2DIV.appendChild(P2LABEL);
+            P2DIV.appendChild(P2INPUT);
+
+
+            INPUTSET.appendChild(P1DIV);
+            INPUTSET.appendChild(P2DIV);
+            MAINCONTAINER.appendChild(INPUTSET);
+
+            const BUTTONSET = document.createElement('div');
+            BUTTONSET.style.display = 'flex';
+
+            const CONFIRM = document.createElement('button');
+            CONFIRM.textContent = 'Confirm';
+
+            const BACK = document.createElement('button');
+            BACK.textContent = 'Back';
+
+            BUTTONSET.appendChild(CONFIRM);
+            BUTTONSET.appendChild(BACK);
+            MAINCONTAINER.appendChild(BUTTONSET);
+        }
         
     }
 
