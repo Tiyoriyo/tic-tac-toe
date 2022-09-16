@@ -1,5 +1,5 @@
 const GAMEBOARD = (function() {
-
+    const MAINCONTAINER = document.querySelector('.main-container');
     const gameboard = [
         null, null, null,
          null, null, null,
@@ -27,7 +27,9 @@ const GAMEBOARD = (function() {
             TWOPLAYER.textContent = 'Two Player';
             TWOPLAYER.className = 'intro-btn two-player-btn';
             TWOPLAYER.addEventListener('click', () => {
-
+                GAMETITLE.remove();
+                BUTTONSET.remove();
+                render();
             });
             BUTTONSET.appendChild(TWOPLAYER);
 
@@ -35,31 +37,40 @@ const GAMEBOARD = (function() {
             COMPUTER.textContent = 'Computer';
             COMPUTER.className = 'intro-btn computer-btn';
             COMPUTER.addEventListener('click', () => {
-
+                
             });
             BUTTONSET.appendChild(COMPUTER);
 
-            const MAINCONTAINER = document.querySelector('.main-container');
             MAINCONTAINER.appendChild(GAMETITLE);
             MAINCONTAINER.appendChild(BUTTONSET);
         })();
+
+        
     }
 
     intro();
 
     function render() {
-        let canvas = document.querySelector('.canvas');
+        const CONTAINER = document.createElement('div');
+        CONTAINER.className = 'container';
+
+        const CANVAS = document.createElement('div');
+        CANVAS.className = 'canvas';
+        
+        CONTAINER.appendChild(CANVAS);
+        MAINCONTAINER.appendChild(CONTAINER);
+        
         let i = 0;
         
         gameboard.forEach(() => {
-            let box = document.createElement('div'); 
+            const BOX = document.createElement('div'); 
 
-            box.style.width = '1fr';
-            box.style.height = '1fr';
-            box.className = 'box';
-            box.setAttribute('id', `${i}`);
+            BOX.style.width = '1fr';
+            BOX.style.height = '1fr';
+            BOX.className = 'box';
+            BOX.setAttribute('id', `${i}`);
             i++;
-            canvas.appendChild(box);
+            CANVAS.appendChild(BOX);
         });
     };
 
