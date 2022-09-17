@@ -168,13 +168,17 @@ const GAMEBOARD = (function() {
                     }
                 });
 
-                player1 = new Player(P1INPUT.value, P1Choice);
-                player2 = new Player(P2INPUT.value, P2Choice);
-
-                let children = MAINCONTAINER.children;
-                Array.prototype.forEach.call(children, (child) => child.remove());
-                children[0].remove(); // Final remove() because forEach wasn't deleting every node
-                render(); 
+                if (P1Choice === P2Choice) {
+                    alert('You must have different choices');
+                } else {
+                    player1 = new Player(P1INPUT.value, P1Choice);
+                    player2 = new Player(P2INPUT.value, P2Choice);
+    
+                    let children = MAINCONTAINER.children;
+                    Array.prototype.forEach.call(children, (child) => child.remove());
+                    children[0].remove(); // Final remove() because forEach wasn't deleting every node
+                    render(); 
+                }
             });
 
             const BACK = document.createElement('button');
