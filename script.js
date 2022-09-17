@@ -177,6 +177,7 @@ const GAMEBOARD = (function() {
                 } else {
                     player1 = new Player(P1INPUT.value, P1Choice);
                     player2 = new Player(P2INPUT.value, P2Choice);
+                    currentTeam = player1;
     
                     let children = MAINCONTAINER.children;
                     Array.prototype.forEach.call(children, (child) => child.remove());
@@ -204,7 +205,6 @@ const GAMEBOARD = (function() {
     intro();
 
     function render() {
-        currentTeam = player1;
         const CONTAINER = document.createElement('div');
         CONTAINER.className = 'container';
 
@@ -240,18 +240,29 @@ const GAMEBOARD = (function() {
     let Player = function(name, team) {
         this.name = name;
         this.team = team;
+        this.enemy = ''; // lets try building a prototype function, and then adding it to player 1, make it a private function declared to a variable
     };
 
     function makeMove(e, player) {
         if(player.team === 'X') {
             gameboard[e.target.id] = 'X';
+            currentTeam = switchTeams();
             clearContainer();
             render();
 
         } else {
             gameboard[e.target.id] = 'O';
+            currentTeam = switchTeams();
             clearContainer();
             render();
+        }
+    }
+
+    function switchTeams() {
+        if (currentTeam === player1) {
+            return player2;
+        } else {
+            return player1;
         }
     }
 
