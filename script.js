@@ -153,9 +153,6 @@ const GAMEBOARD = (function() {
             CONFIRM.addEventListener('click', () => {
                 let P1Choice = null;
                 let P2Choice = null;
-
-                player1 = new Player(P1INPUT.value, P1Choice);
-                player2 = new Player(P2INPUT.value, P2Choice);
                 
                 const P1CHOICES = document.querySelectorAll('.P1Choice');
                 P1CHOICES.forEach((choice) => {
@@ -170,6 +167,9 @@ const GAMEBOARD = (function() {
                         P2Choice = choice.value;
                     }
                 });
+
+                player1 = new Player(P1INPUT.value, P1Choice);
+                player2 = new Player(P2INPUT.value, P2Choice);
 
                 let children = MAINCONTAINER.children;
                 Array.prototype.forEach.call(children, (child) => child.remove());
