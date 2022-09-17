@@ -46,7 +46,9 @@ body {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    font-size: 50px;
+    font-size: 100px;
+    color: #481015;
+    text-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
