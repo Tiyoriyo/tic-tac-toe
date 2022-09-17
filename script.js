@@ -244,18 +244,23 @@ const GAMEBOARD = (function() {
     };
 
     function makeMove(e, player) {
-        if(player.team === 'X') {
-            gameboard[e.target.id] = 'X';
-            currentTeam = switchTeams();
-            clearContainer();
-            render();
-
+        if (gameboard[e.target.id] === 'X' || gameboard[e.target.id] === 'O') {
+            return;
         } else {
-            gameboard[e.target.id] = 'O';
-            currentTeam = switchTeams();
-            clearContainer();
-            render();
+            if (player.team === 'X') {
+                gameboard[e.target.id] = 'X';
+                currentTeam = switchTeams();
+                clearContainer();
+                render();
+    
+            } else {
+                gameboard[e.target.id] = 'O';
+                currentTeam = switchTeams();
+                clearContainer();
+                render();
+            }
         }
+
     }
 
     function switchTeams() {
