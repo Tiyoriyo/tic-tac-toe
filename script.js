@@ -16,6 +16,7 @@ const GAMEBOARD = (function() {
 
     var player1;
     var player2;
+    var currentTeam
 
     function intro() {
         (function createIntroItems() {
@@ -154,6 +155,7 @@ const GAMEBOARD = (function() {
                 let P1Choice = null;
                 let P2Choice = null;
                 
+                //Finds Player 1 team choice
                 const P1CHOICES = document.querySelectorAll('.P1Choice');
                 P1CHOICES.forEach((choice) => {
                     if (choice.checked === true) {
@@ -161,6 +163,7 @@ const GAMEBOARD = (function() {
                     }
                 });
 
+                //Finds Player 2 team choice
                 const P2CHOICES = document.querySelectorAll('.P2Choice')
                 P2CHOICES.forEach((choice) => {
                     if (choice.checked === true) {
@@ -168,6 +171,7 @@ const GAMEBOARD = (function() {
                     }
                 });
 
+                //CHECKS IF BOTH PLAYERS HAVE THE SAME TEAMS
                 if (P1Choice === P2Choice) {
                     alert('You must have different choices');
                 } else {
@@ -200,9 +204,7 @@ const GAMEBOARD = (function() {
     intro();
 
     function render() {
-
-        console.log(player1);
-        console.log(player2);  
+        currentTeam = player1;
         const CONTAINER = document.createElement('div');
         CONTAINER.className = 'container';
 
@@ -219,9 +221,12 @@ const GAMEBOARD = (function() {
         
         let i = 0;
         
-        gameboard.forEach(() => {
+        gameboard.forEach((pos) => {
             const BOX = document.createElement('div'); 
-
+            BOX.addEventListener('click', (e) => {
+                makeMove(e, currentTeam);
+            });
+            BOX.textContent = pos;
             BOX.style.width = '1fr';
             BOX.style.height = '1fr';
             BOX.className = 'box';
@@ -236,6 +241,30 @@ const GAMEBOARD = (function() {
         this.name = name;
         this.team = team;
     };
+
+    function makeMove(e, player) {
+        if(player.team === 'X') {
+            gameboard[e.target.id] = 'X';
+            clearContainer();
+            render();
+
+        } else {
+            gameboard[e.target.id] = 'O';
+            clearContainer();
+            render();
+        }
+    }
+
+    function clearContainer() {
+        const CONTAINER = document.querySelector('.container');
+        const GAMETITLE = document.querySelector('.game-title');
+        CONTAINER.remove();
+        GAMETITLE.remove();
+    }
+
+    return {
+        gameboard,
+    }
 
 })();
 
