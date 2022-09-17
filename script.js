@@ -229,7 +229,7 @@ const GAMEBOARD = (function() {
             BOX.textContent = pos;
             BOX.style.width = '1fr';
             BOX.style.height = '1fr';
-            BOX.className = 'box';
+            BOX.className = 'box noselect';
             BOX.setAttribute('id', `${i}`);
             i++;
             CANVAS.appendChild(BOX);
