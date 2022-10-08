@@ -240,26 +240,33 @@ const GAMEBOARD = (function() {
     let Player = function(name, team) {
         this.name = name;
         this.team = team;
-        this.enemy = ''; // lets try building a prototype function, and then adding it to player 1, make it a private function declared to a variable
+        this.gameboard = [];
     };
 
     function makeMove(e, player) {
         if (gameboard[e.target.id] === 'X' || gameboard[e.target.id] === 'O') {
+            console.log('can\'t change move')
             return;
         } else {
             if (player.team === 'X') {
+                player.gameboard.push(e.target.id);
                 gameboard[e.target.id] = 'X';
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
     
             } else {
+                player.gameboard.push(e.target.id);
                 gameboard[e.target.id] = 'O';
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
             }
         }
+
+
+
+
 
     }
 
@@ -277,9 +284,17 @@ const GAMEBOARD = (function() {
         CONTAINER.remove();
         GAMETITLE.remove();
     }
+    // debug
+
+    function debug() {
+        console.log(player1.gameboard);
+        console.log(player2.gameboard);
+
+    }
 
     return {
         gameboard,
+        debug,
     }
 
 })();
