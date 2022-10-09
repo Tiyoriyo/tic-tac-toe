@@ -245,12 +245,11 @@ const GAMEBOARD = (function() {
 
     function makeMove(e, player) {
         if (gameboard[e.target.id] === 'X' || gameboard[e.target.id] === 'O') {
-            console.log('can\'t change move')
+            console.log('no');
             return;
         } else {
             if (player.team === 'X') {
                 player.gameboard.push(e.target.id);
-                console.log(player.gameboard);
                 checker(player.gameboard, WINNING_COMBINATIONS);
                 gameboard[e.target.id] = 'X';
                 currentTeam = switchTeams();
@@ -259,7 +258,6 @@ const GAMEBOARD = (function() {
     
             } else if (player.team === 'O') {
                 player.gameboard.push(e.target.id);
-                console.log(player.gameboard);
                 checker(player.gameboard, WINNING_COMBINATIONS);
                 gameboard[e.target.id] = 'O';
                 currentTeam = switchTeams();
