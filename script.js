@@ -16,7 +16,7 @@ const GAMEBOARD = (function() {
 
     var player1;
     var player2;
-    var currentTeam
+    var currentTeam;
 
     function intro() {
         (function createIntroItems() {
@@ -250,24 +250,51 @@ const GAMEBOARD = (function() {
         } else {
             if (player.team === 'X') {
                 player.gameboard.push(e.target.id);
+                console.log(player.gameboard);
+                checker(player.gameboard, WINNING_COMBINATIONS);
                 gameboard[e.target.id] = 'X';
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
     
-            } else {
+            } else if (player.team === 'O') {
                 player.gameboard.push(e.target.id);
+                console.log(player.gameboard);
+                checker(player.gameboard, WINNING_COMBINATIONS);
                 gameboard[e.target.id] = 'O';
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
             }
         }
+    }
 
+    function checker(arr, target) {
+        let playerArray = arr.map(x => x * 1);
+        let result;
 
+        
+        for (let i = 0; i < target.length; i++) {
+            let boolean = target[i].every(v => playerArray.includes(v));
 
+            if (boolean === false) {
+                result = false;
+            } else if (boolean === true) {
+                result = true;
+                break;
+            } 
 
+            if (playerArray.length === 5 && boolean === false) {
+                result = 'draw';
+            }
 
+        }
+
+        if (result === true) {
+            console.log(result);
+        } else if (result === 'draw') {
+            console.log(result);
+        }
     }
 
     function switchTeams() {
@@ -289,14 +316,11 @@ const GAMEBOARD = (function() {
     function debug() {
         console.log(player1.gameboard);
         console.log(player2.gameboard);
-
     }
 
     return {
-        gameboard,
         debug,
     }
-
 })();
 
 
