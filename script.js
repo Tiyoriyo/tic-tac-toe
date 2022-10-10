@@ -264,20 +264,20 @@ const GAMEBOARD = (function() {
             if (player.team === 'X') {
                 player.gameboard.push(e.target.id);
                 gameboard[e.target.id] = 'X';
-                checker(player.gameboard, WINNING_COMBINATIONS);
 
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
+                checker(player.gameboard, WINNING_COMBINATIONS);
     
             } else if (player.team === 'O') {
                 player.gameboard.push(e.target.id);
                 gameboard[e.target.id] = 'O';
-                checker(player.gameboard, WINNING_COMBINATIONS);
 
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
+                checker(player.gameboard, WINNING_COMBINATIONS);
             }
         }
     }
@@ -304,17 +304,21 @@ const GAMEBOARD = (function() {
 
         (function(result) {
             if(result === true) {  
-                const BUTTONSET = document.createElement('div');
+                const BUTTONSET = document.querySelector('.button-set');
                 const REMATCH = document.createElement('button');
                 const STARTOVER = document.createElement('button');
 
                 REMATCH.textContent = 'Rematch';
                 STARTOVER.textContent = 'Start Over';
 
+                let children = BUTTONSET.children;
+                for (let i = children.length - 1; i > -1; i--) {
+                    children[i].remove();
+                };
+
                 BUTTONSET.appendChild(REMATCH);
                 BUTTONSET.appendChild(STARTOVER);
-
-                MAINCONTAINER.appendChild(BUTTONSET);
+                console.table(children);
             }
         })(result);
     };
