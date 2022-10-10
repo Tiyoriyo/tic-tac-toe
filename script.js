@@ -11,7 +11,10 @@ const GAMEBOARD = (function() {
         [3, 4, 5],
         [6, 7, 8],
         [0, 4, 8],
-        [2, 4, 6]
+        [2, 4, 6],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
     ];
 
     var player1;
@@ -250,16 +253,18 @@ const GAMEBOARD = (function() {
         } else {
             if (player.team === 'X') {
                 player.gameboard.push(e.target.id);
-                checker(player.gameboard, WINNING_COMBINATIONS);
                 gameboard[e.target.id] = 'X';
+                checker(player.gameboard, WINNING_COMBINATIONS);
+
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
     
             } else if (player.team === 'O') {
                 player.gameboard.push(e.target.id);
-                checker(player.gameboard, WINNING_COMBINATIONS);
                 gameboard[e.target.id] = 'O';
+                checker(player.gameboard, WINNING_COMBINATIONS);
+
                 currentTeam = switchTeams();
                 clearContainer();
                 render();
@@ -268,32 +273,43 @@ const GAMEBOARD = (function() {
     }
 
     function checker(arr, target) {
-        let playerArray = arr.map(x => x * 1);
         let result;
-
+        let playerArray = arr.map(x => x * 1);
         
         for (let i = 0; i < target.length; i++) {
             let boolean = target[i].every(v => playerArray.includes(v));
 
             if (boolean === false) {
-                result = false;
+                result = boolean;
             } else if (boolean === true) {
-                result = true;
+                result = boolean;
+                console.log(result);
                 break;
-            } 
+            };
 
             if (playerArray.length === 5 && boolean === false) {
                 result = 'draw';
+            };
+        };
+
+        (function(result) {
+            if(result === true) {
+                (function() {
+                    const BUTTONSET = document.createElement('div');
+                    const REMATCH = document.createElement('button');
+                    const STARTOVER = document.createElement('startover');
+
+                    REMATCH.textContent = 'Rematch';
+                    STARTOVER.textContent = 'Start Over';
+
+                    BUTTONSET.appendChild(REMATCH);
+                    BUTTONSET.appendChild(STARTOVER);
+
+                    MAINCONTAINER.appendChild(BUTTONSET);
+                })();
             }
-
-        }
-
-        if (result === true) {
-            console.log(result);
-        } else if (result === 'draw') {
-            console.log(result);
-        }
-    }
+        })(result);
+    };
 
     function switchTeams() {
         if (currentTeam === player1) {
