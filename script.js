@@ -311,6 +311,18 @@ const GAMEBOARD = (function() {
                 REMATCH.textContent = 'Rematch';
                 STARTOVER.textContent = 'Start Over';
 
+                REMATCH.addEventListener('click', () => {
+                    player1.gameboard = [];
+                    player2.gameboard = [];
+
+                    for (let i = 0; i < gameboard.length; i++) {
+                        gameboard[i] = null;
+                    };
+                    
+                    clearContainer();
+                    render();
+                });
+
                 let children = BUTTONSET.children;
                 for (let i = children.length - 1; i > -1; i--) {
                     children[i].remove();
