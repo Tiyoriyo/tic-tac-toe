@@ -303,7 +303,7 @@ const GAMEBOARD = (function() {
         };
 
         (function(result) {
-            if(result === true) {  
+            if(result === true || result === 'draw') {  
                 const BUTTONSET = document.querySelector('.button-set');
                 const REMATCH = document.createElement('button');
                 const STARTOVER = document.createElement('button');
@@ -318,7 +318,6 @@ const GAMEBOARD = (function() {
 
                 BUTTONSET.appendChild(REMATCH);
                 BUTTONSET.appendChild(STARTOVER);
-                console.table(children);
             }
         })(result);
     };
