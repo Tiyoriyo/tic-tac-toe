@@ -210,17 +210,27 @@ const GAMEBOARD = (function() {
     function render() {
         const CONTAINER = document.createElement('div');
         CONTAINER.className = 'container';
+        
+        const GAMETITLE = document.createElement('h1');
+        GAMETITLE.textContent = 'Tic-Tac-Toe'
+        GAMETITLE.className = 'game-title';
 
         const CANVAS = document.createElement('div');
         CANVAS.className = 'canvas';
 
-        const GAMETITLE = document.createElement('h1');
-        GAMETITLE.textContent = 'Tic-Tac-Toe'
-        GAMETITLE.className = 'game-title';
-        
+        const BUTTONSET = document.createElement('div');
+        const FORFEIT_P1 = document.createElement('button');
+        const FORFEIT_P2 = document.createElement('button');
+        FORFEIT_P1.textContent = 'Player 1 Forfeit';
+        FORFEIT_P2.textContent = 'Player 2 Forfeit';
+        BUTTONSET.className = 'button-set';
+
+        BUTTONSET.appendChild(FORFEIT_P1);
+        BUTTONSET.appendChild(FORFEIT_P2);
         CONTAINER.appendChild(CANVAS);
         MAINCONTAINER.appendChild(GAMETITLE);
         MAINCONTAINER.appendChild(CONTAINER);
+        MAINCONTAINER.appendChild(BUTTONSET);
         
         let i = 0;
         
@@ -293,20 +303,18 @@ const GAMEBOARD = (function() {
         };
 
         (function(result) {
-            if(result === true) {
-                (function() {
-                    const BUTTONSET = document.createElement('div');
-                    const REMATCH = document.createElement('button');
-                    const STARTOVER = document.createElement('startover');
+            if(result === true) {  
+                const BUTTONSET = document.createElement('div');
+                const REMATCH = document.createElement('button');
+                const STARTOVER = document.createElement('button');
 
-                    REMATCH.textContent = 'Rematch';
-                    STARTOVER.textContent = 'Start Over';
+                REMATCH.textContent = 'Rematch';
+                STARTOVER.textContent = 'Start Over';
 
-                    BUTTONSET.appendChild(REMATCH);
-                    BUTTONSET.appendChild(STARTOVER);
+                BUTTONSET.appendChild(REMATCH);
+                BUTTONSET.appendChild(STARTOVER);
 
-                    MAINCONTAINER.appendChild(BUTTONSET);
-                })();
+                MAINCONTAINER.appendChild(BUTTONSET);
             }
         })(result);
     };
@@ -320,10 +328,12 @@ const GAMEBOARD = (function() {
     }
 
     function clearContainer() {
-        const CONTAINER = document.querySelector('.container');
         const GAMETITLE = document.querySelector('.game-title');
-        CONTAINER.remove();
+        const CONTAINER = document.querySelector('.container');
+        const BUTTONSET = document.querySelector('.button-set')
         GAMETITLE.remove();
+        CONTAINER.remove();
+        BUTTONSET.remove();
     }
     // debug
 
