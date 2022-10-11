@@ -221,6 +221,29 @@ const GAMEBOARD = (function() {
             const CANVAS = document.createElement('div');
             CANVAS.className = 'canvas';
 
+            const BUTTONSET = document.createElement('div');
+            const REMATCH = document.createElement('button');
+            const STARTOVER = document.createElement('button');
+            REMATCH.textContent = 'Rematch';
+            STARTOVER.textContent = 'Start Over';
+            BUTTONSET.className = 'button-set';
+
+            REMATCH.addEventListener('click', () => {
+                player1.gameboard = [];
+                player2.gameboard = [];
+
+                win = false;
+
+                for (let i = 0; i < gameboard.length; i++) {
+                    gameboard[i] = null;
+                };
+
+                clearContainer();
+                render();
+            });
+
+
+            
             let i = 0;
         
             gameboard.forEach((pos) => {
@@ -234,8 +257,11 @@ const GAMEBOARD = (function() {
                 CANVAS.appendChild(BOX);
             });
             CONTAINER.appendChild(CANVAS);
+            BUTTONSET.appendChild(REMATCH);
+            BUTTONSET.appendChild(STARTOVER);
             MAINCONTAINER.appendChild(GAMETITLE);
             MAINCONTAINER.appendChild(CONTAINER);
+            MAINCONTAINER.appendChild(BUTTONSET);
             
             return;
         }
@@ -251,6 +277,8 @@ const GAMEBOARD = (function() {
         CANVAS.className = 'canvas';
 
         const BUTTONSET = document.createElement('div');
+        BUTTONSET.className = 'button-set';
+
         const FORFEIT_P1 = document.createElement('button');
         const FORFEIT_P2 = document.createElement('button');
         FORFEIT_P1.textContent = 'Player 1 Forfeit';
