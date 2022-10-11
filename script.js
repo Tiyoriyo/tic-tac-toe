@@ -233,11 +233,10 @@ const GAMEBOARD = (function() {
                 i++;
                 CANVAS.appendChild(BOX);
             });
-
             CONTAINER.appendChild(CANVAS);
             MAINCONTAINER.appendChild(GAMETITLE);
             MAINCONTAINER.appendChild(CONTAINER);
-        
+            
             return;
         }
 
@@ -259,7 +258,7 @@ const GAMEBOARD = (function() {
         BUTTONSET.className = 'button-set';
         FORFEIT_P1.addEventListener('click', () => {
             for (let i = 0; i < gameboard.length; i++) {
-                gameboard[i] = `${player1.team}`;
+                gameboard[i] = `${player2.team}`;
                 win = true;
                 clearContainer();
                 render();
