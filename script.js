@@ -265,6 +265,15 @@ const GAMEBOARD = (function() {
             };
         })
 
+        FORFEIT_P2.addEventListener('click', () => {
+            for (let i = 0; i < gameboard.length; i++) {
+                gameboard[i] = `${player1.team}`;
+                win = true;
+                clearContainer();
+                render();
+            };
+        })
+
         BUTTONSET.appendChild(FORFEIT_P1);
         BUTTONSET.appendChild(FORFEIT_P2);
         CONTAINER.appendChild(CANVAS);
