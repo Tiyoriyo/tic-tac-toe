@@ -20,6 +20,7 @@ const GAMEBOARD = (function() {
     var player1;
     var player2;
     var currentTeam;
+    var win = false;
 
     function intro() {
         (function createIntroItems() {
@@ -208,6 +209,38 @@ const GAMEBOARD = (function() {
     intro();
 
     function render() {
+
+        if (win === true) {
+            const CONTAINER = document.createElement('div');
+            CONTAINER.className = 'container win';
+
+            const GAMETITLE = document.createElement('h1');
+            GAMETITLE.textContent = 'Tic-Tac-Toe'
+            GAMETITLE.className = 'game-title';
+
+            const CANVAS = document.createElement('div');
+            CANVAS.className = 'canvas';
+
+            let i = 0;
+        
+            gameboard.forEach((pos) => {
+                const BOX = document.createElement('div'); 
+                BOX.textContent = pos;
+                BOX.style.width = '1fr';
+                BOX.style.height = '1fr';
+                BOX.className = 'box noselect win';
+                BOX.setAttribute('id', `${i}`);
+                i++;
+                CANVAS.appendChild(BOX);
+            });
+
+            CONTAINER.appendChild(CANVAS);
+            MAINCONTAINER.appendChild(GAMETITLE);
+            MAINCONTAINER.appendChild(CONTAINER);
+        
+            return;
+        }
+
         const CONTAINER = document.createElement('div');
         CONTAINER.className = 'container';
         
@@ -224,6 +257,14 @@ const GAMEBOARD = (function() {
         FORFEIT_P1.textContent = 'Player 1 Forfeit';
         FORFEIT_P2.textContent = 'Player 2 Forfeit';
         BUTTONSET.className = 'button-set';
+        FORFEIT_P1.addEventListener('click', () => {
+            for (let i = 0; i < gameboard.length; i++) {
+                gameboard[i] = `${player1.team}`;
+                win = true;
+                clearContainer();
+                render();
+            };
+        })
 
         BUTTONSET.appendChild(FORFEIT_P1);
         BUTTONSET.appendChild(FORFEIT_P2);
@@ -346,9 +387,16 @@ const GAMEBOARD = (function() {
         const GAMETITLE = document.querySelector('.game-title');
         const CONTAINER = document.querySelector('.container');
         const BUTTONSET = document.querySelector('.button-set')
-        GAMETITLE.remove();
-        CONTAINER.remove();
-        BUTTONSET.remove();
+        if (GAMETITLE) {
+            GAMETITLE.remove();
+        }
+        if (CONTAINER) {
+            CONTAINER.remove();
+        }
+        if (BUTTONSET) {
+            BUTTONSET.remove();
+        }
+        
     }
     // debug
 

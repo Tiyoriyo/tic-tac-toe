@@ -62,6 +62,15 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
+.win {
+    background-color: #40b27b;
+    color: #133625;
+}
+
+body > div.main-container > div.win {
+    border: 1px solid #133625;
+}
+
 .bottom {
     display: flex;
     gap: 15px;
