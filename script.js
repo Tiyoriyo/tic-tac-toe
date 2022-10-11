@@ -228,6 +228,20 @@ const GAMEBOARD = (function() {
             STARTOVER.textContent = 'Start Over';
             BUTTONSET.className = 'button-set';
 
+            STARTOVER.addEventListener('click', () => {
+                player1.gameboard = [];
+                player2.gameboard = [];
+
+                win = false;
+
+                for (let i = 0; i < gameboard.length; i++) {
+                    gameboard[i] = null;
+                }
+
+                clearContainer();
+                intro();
+            });
+
             REMATCH.addEventListener('click', () => {
                 player1.gameboard = [];
                 player2.gameboard = [];
@@ -387,6 +401,20 @@ const GAMEBOARD = (function() {
 
                 REMATCH.textContent = 'Rematch';
                 STARTOVER.textContent = 'Start Over';
+
+                STARTOVER.addEventListener('click', () => {
+                    player1.gameboard = [];
+                    player2.gameboard = [];
+
+                    win = false;
+
+                    for (let i = 0; i < gameboard.length; i++) {
+                        gameboard[i] = null;
+                    }
+
+                    clearContainer();
+                    intro();
+                });
 
                 REMATCH.addEventListener('click', () => {
                     player1.gameboard = [];
