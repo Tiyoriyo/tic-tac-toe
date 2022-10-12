@@ -395,8 +395,26 @@ const GAMEBOARD = (function() {
             };
         };
 
-        (function(result) {
+        (function(result, playerArray, target ) {
             if(result === true || result === 'draw') {  
+                // make all boxes with moves that match winning combination green
+                // make a list of matching boxes
+                // 
+                for (let i = 0; i < target.length; i++) {
+                    let boolean = target[i].every(v => playerArray.includes(v));
+
+                    if (boolean) {
+                        let squareList = document.querySelectorAll('.box');
+                        let winningSquares = target[i];
+                        
+                        for (let i = 0; i < winningSquares.length; i++) {
+                            let index = winningSquares[i];
+                            squareList[index].style.backgroundColor = '#d35353';
+                            console.log(squareList[index]);
+                        }
+                    }
+                }
+
                 const BUTTONSET = document.querySelector('.button-set');
                 const REMATCH = document.createElement('button');
                 const STARTOVER = document.createElement('button');
@@ -437,8 +455,10 @@ const GAMEBOARD = (function() {
 
                 BUTTONSET.appendChild(REMATCH);
                 BUTTONSET.appendChild(STARTOVER);
+            } else if (result === 'draw') {
+                
             }
-        })(result);
+        })(result, playerArray, target);
     };
 
     function switchTeams() {
