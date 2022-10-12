@@ -20,6 +20,7 @@ const GAMEBOARD = (function() {
     var player1;
     var player2;
     var currentTeam;
+    var forfeit = false;
     var win = false;
 
     function intro() {
@@ -212,9 +213,9 @@ const GAMEBOARD = (function() {
 
     function render() {
 
-        if (win === true) {
+        if (forfeit === true) {
             const CONTAINER = document.createElement('div');
-            CONTAINER.className = 'container win';
+            CONTAINER.className = 'container forfeit';
 
             const GAMETITLE = document.createElement('h1');
             GAMETITLE.textContent = 'Tic-Tac-Toe'
@@ -234,7 +235,7 @@ const GAMEBOARD = (function() {
                 player1.gameboard = [];
                 player2.gameboard = [];
 
-                win = false;
+                forfeit = false;
 
                 for (let i = 0; i < gameboard.length; i++) {
                     gameboard[i] = null;
@@ -248,7 +249,7 @@ const GAMEBOARD = (function() {
                 player1.gameboard = [];
                 player2.gameboard = [];
 
-                win = false;
+                forfeit = false;
 
                 for (let i = 0; i < gameboard.length; i++) {
                     gameboard[i] = null;
@@ -267,7 +268,7 @@ const GAMEBOARD = (function() {
                 BOX.textContent = pos;
                 BOX.style.width = '1fr';
                 BOX.style.height = '1fr';
-                BOX.className = 'box noselect win';
+                BOX.className = 'box noselect forfeit';
                 BOX.setAttribute('id', `${i}`);
                 i++;
                 CANVAS.appendChild(BOX);
@@ -303,7 +304,7 @@ const GAMEBOARD = (function() {
         FORFEIT_P1.addEventListener('click', () => {
             for (let i = 0; i < gameboard.length; i++) {
                 gameboard[i] = `${player2.team}`;
-                win = true;
+                forfeit = true;
                 clearContainer();
                 render();
             };
@@ -312,7 +313,7 @@ const GAMEBOARD = (function() {
         FORFEIT_P2.addEventListener('click', () => {
             for (let i = 0; i < gameboard.length; i++) {
                 gameboard[i] = `${player1.team}`;
-                win = true;
+                forfeit = true;
                 clearContainer();
                 render();
             };
@@ -329,9 +330,8 @@ const GAMEBOARD = (function() {
         
         gameboard.forEach((pos) => {
             const BOX = document.createElement('div'); 
-            BOX.addEventListener('click', (e) => {
-                makeMove(e, currentTeam);
-            });
+            BOX.addEventListener('click', makeMove);
+
             BOX.textContent = pos;
             BOX.style.width = '1fr';
             BOX.style.height = '1fr';
@@ -349,28 +349,29 @@ const GAMEBOARD = (function() {
         this.gameboard = [];
     };
 
-    function makeMove(e, player) {
+    function makeMove(e) {
+        console.log(currentTeam);
         if (gameboard[e.target.id] === 'X' || gameboard[e.target.id] === 'O') {
             console.log('no');
             return;
         } else {
-            if (player.team === 'X') {
-                player.gameboard.push(e.target.id);
+            if (currentTeam.team === 'X') {
+                currentTeam.gameboard.push(e.target.id);
                 gameboard[e.target.id] = 'X';
 
-                currentTeam = switchTeams();
                 clearContainer();
                 render();
-                checker(player.gameboard, WINNING_COMBINATIONS);
+                checker(currentTeam.gameboard, WINNING_COMBINATIONS);
+                currentTeam = switchTeams();
     
-            } else if (player.team === 'O') {
-                player.gameboard.push(e.target.id);
+            } else if (currentTeam.team === 'O') {
+                currentTeam.gameboard.push(e.target.id);
                 gameboard[e.target.id] = 'O';
 
-                currentTeam = switchTeams();
                 clearContainer();
                 render();
-                checker(player.gameboard, WINNING_COMBINATIONS);
+                checker(currentTeam.gameboard, WINNING_COMBINATIONS);
+                currentTeam = switchTeams();
             }
         }
     }
@@ -378,15 +379,19 @@ const GAMEBOARD = (function() {
     function checker(arr, target) {
         let result;
         let playerArray = arr.map(x => x * 1);
+        console.log(arr);
         
         for (let i = 0; i < target.length; i++) {
             let boolean = target[i].every(v => playerArray.includes(v));
 
+            console.log(target[i]);
+            console.log(playerArray);
+
             if (boolean === false) {
                 result = boolean;
+            
             } else if (boolean === true) {
                 result = boolean;
-                console.log(result);
                 break;
             };
 
@@ -397,20 +402,25 @@ const GAMEBOARD = (function() {
 
         (function(result, playerArray, target ) {
             if(result === true || result === 'draw') {  
-                // make all boxes with moves that match winning combination green
+                // make all boxes with moves that match forfeitning combination green
                 // make a list of matching boxes
                 // 
+                let boxes = document.querySelectorAll('.box')
+                for (let i = 0; i < boxes.length; i++) {
+                    boxes[i].removeEventListener('click', makeMove);
+                }
+                win = true;
+
                 for (let i = 0; i < target.length; i++) {
                     let boolean = target[i].every(v => playerArray.includes(v));
 
                     if (boolean) {
                         let squareList = document.querySelectorAll('.box');
-                        let winningSquares = target[i];
+                        let forfeitningSquares = target[i];
                         
-                        for (let i = 0; i < winningSquares.length; i++) {
-                            let index = winningSquares[i];
+                        for (let i = 0; i < forfeitningSquares.length; i++) {
+                            let index = forfeitningSquares[i];
                             squareList[index].style.backgroundColor = '#d35353';
-                            console.log(squareList[index]);
                         }
                     }
                 }
@@ -426,7 +436,7 @@ const GAMEBOARD = (function() {
                     player1.gameboard = [];
                     player2.gameboard = [];
 
-                    win = false;
+                    forfeit = false;
 
                     for (let i = 0; i < gameboard.length; i++) {
                         gameboard[i] = null;
@@ -487,12 +497,20 @@ const GAMEBOARD = (function() {
     // debug
 
     function debug() {
-        console.log(player1.gameboard);
-        console.log(player2.gameboard);
+     
+        console.log(`Current team is ${currentTeam}`);
+        console.log(`P1 gameboard ${player1.gameboard}`);
+        console.log(WINNING_COMBINATIONS);
+        console.log(`P2 gameboard ${player2.gameboard}`);
+        console.log(WINNING_COMBINATIONS);
+       
+    
     }
 
     return {
         debug,
+        WINNING_COMBINATIONS,
+
     }
 })();
 
