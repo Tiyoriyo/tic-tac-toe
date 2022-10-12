@@ -178,6 +178,8 @@ const GAMEBOARD = (function() {
                 //CHECKS IF BOTH PLAYERS HAVE THE SAME TEAMS
                 if (P1Choice === P2Choice) {
                     alert('You must have different choices');
+                } else if (!P1Choice || !P2Choice) {
+                    alert('You need to pick a team');
                 } else {
                     player1 = new Player(P1INPUT.value, P1Choice);
                     player2 = new Player(P2INPUT.value, P2Choice);
