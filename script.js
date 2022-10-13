@@ -181,12 +181,12 @@ const intro = (() => {
         } else if (!P1Choice || !P2Choice) {
             alert('You need to pick a team');
         } else {
-            GAMEBOARD.player1 = GAMEBOARD.Player(P1Name, P1Choice);
-            GAMEBOARD.player2 = GAMEBOARD.Player(P2Name, P2Choice);
+            gameboard.player1 = gameboard.Player(P1Name, P1Choice);
+            gameboard.player2 = gameboard.Player(P2Name, P2Choice);
 
-            console.log(GAMEBOARD.player1);
-            GAMEBOARD.currentTeam = GAMEBOARD.player1;
-            console.log(GAMEBOARD.currentTeam);
+            
+            gameboard.currentTeam = gameboard.player1;
+          
 
             let children = MAINCONTAINER.children;
             Array.prototype.forEach.call(children, (child) => child.remove());
@@ -207,14 +207,14 @@ const intro = (() => {
     }
 })();
 
-const GAMEBOARD = (() => {
-    const gameboard = [
+const gameboard = (() => {
+    const board = [
         null, null, null,
          null, null, null,
           null, null, null
     ];
 
-    const WINNING_COMBINATIONS = [
+    const winningConditions = [
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
@@ -236,27 +236,27 @@ const GAMEBOARD = (() => {
     };
 
     const makeMove = (e) => {
-        if (gameboard[e.target.id] === 'X' || gameboard[e.target.id] === 'O') {
+        if (board[e.target.id] === 'X' || board[e.target.id] === 'O') {
             console.log('no');
             return;
         } else {
-            if (GAMEBOARD.currentTeam.team === 'X') {
-                GAMEBOARD.currentTeam.gameboard.push(e.target.id);
-                gameboard[e.target.id] = 'X';
+            if (gameboard.currentTeam.team === 'X') {
+                gameboard.currentTeam.gameboard.push(e.target.id);
+                board[e.target.id] = 'X';
 
                 render.clearContainer();
                 render.drawBoard();
-                checker(GAMEBOARD.currentTeam.gameboard, WINNING_COMBINATIONS);
-                GAMEBOARD.currentTeam = switchTeams();
+                checker(gameboard.currentTeam.gameboard, winningConditions);
+                gameboard.currentTeam = switchTeams();
     
-            } else if (GAMEBOARD.currentTeam.team === 'O') {
-                GAMEBOARD.currentTeam.gameboard.push(e.target.id);
-                gameboard[e.target.id] = 'O';
+            } else if (gameboard.currentTeam.team === 'O') {
+                gameboard.currentTeam.gameboard.push(e.target.id);
+                board[e.target.id] = 'O';
 
                 render.clearContainer();
                 render.drawBoard();
-                checker(GAMEBOARD.currentTeam.gameboard, WINNING_COMBINATIONS);
-                GAMEBOARD.currentTeam = switchTeams();
+                checker(gameboard.currentTeam.gameboard, winningConditions);
+                gameboard.currentTeam = switchTeams();
             }
         }
     }
@@ -264,7 +264,6 @@ const GAMEBOARD = (() => {
     const checker = (arr, target) => {
         let result;
         let playerArray = arr.map(x => x * 1);
-        console.log(arr);
         
         for (let i = 0; i < target.length; i++) {
             let boolean = target[i].every(v => playerArray.includes(v));
@@ -317,13 +316,13 @@ const GAMEBOARD = (() => {
                 STARTOVER.textContent = 'Start Over';
 
                 STARTOVER.addEventListener('click', () => {
-                    GAMEBOARD.player1.gameboard = [];
-                    GAMEBOARD.player2.gameboard = [];
+                    gameboard.player1.gameboard = [];
+                    gameboard.player2.gameboard = [];
 
-                    GAMEBOARD.forfeit = false;
+                    gameboard.forfeit = false;
 
-                    for (let i = 0; i < GAMEBOARD.gameboard.length; i++) {
-                        GAMEBOARD.gameboard[i] = null;
+                    for (let i = 0; i < gameboard.board.length; i++) {
+                        gameboard.board[i] = null;
                     }
 
                     render.clearContainer();
@@ -331,12 +330,15 @@ const GAMEBOARD = (() => {
                 });
 
                 REMATCH.addEventListener('click', () => {
-                    GAMEBOARD.player1.gameboard = [];
-                    GAMEBOARD.player2.gameboard = [];
+                    gameboard.player1.gameboard = [];
+                    gameboard.player2.gameboard = [];
 
-                    for (let i = 0; i < GAMEBOARD.gameboard.length; i++) {
-                        GAMEBOARD.gameboard[i] = null;
+                    for (let i = 0; i < gameboard.board.length; i++) {
+                        gameboard.board[i] = null;
                     };
+
+                    gameboard.currentTeam = gameboard.player1;
+                
                     
                     render.clearContainer();
                     render.drawBoard();
@@ -354,15 +356,14 @@ const GAMEBOARD = (() => {
             }
         })(result, playerArray, target);
     };
-
+    
     const switchTeams = () => {
-        if (GAMEBOARD.currentTeam === GAMEBOARD.player1) {
-            return GAMEBOARD.player2;
+        if (gameboard.currentTeam === gameboard.player1) {
+            return gameboard.player2;
         } else {
-            return GAMEBOARD.player1;
+            return gameboard.player1;
         }
-    }
-
+    } 
    
     // debug
 
@@ -371,8 +372,8 @@ const GAMEBOARD = (() => {
     }
 
     return {
-        gameboard,
-        WINNING_COMBINATIONS,
+        board,
+        winningConditions,
         player1,
         player2,
         currentTeam,
@@ -387,7 +388,7 @@ const render = (() => {
 
     const drawBoard = () => {
         
-        if (GAMEBOARD.forfeit === true) {
+        if (gameboard.forfeit === true) {
             const CONTAINER = document.createElement('div');
             CONTAINER.className = 'container forfeit';
     
@@ -406,13 +407,13 @@ const render = (() => {
             BUTTONSET.className = 'button-set';
     
             STARTOVER.addEventListener('click', () => {
-                GAMEBOARD.player1.gameboard = [];
-                GAMEBOARD.player2.gameboard = [];
+                gameboard.player1.gameboard = [];
+                gameboard.player2.gameboard = [];
     
-                GAMEBOARD.forfeit = false;
+                gameboard.forfeit = false;
     
-                for (let i = 0; i < GAMEBOARD.gameboard.length; i++) {
-                    GAMEBOARD.gameboard[i] = null;
+                for (let i = 0; i < gameboard.board.length; i++) {
+                    gameboard.board[i] = null;
                 }
     
                 clearContainer();
@@ -420,14 +421,16 @@ const render = (() => {
             });
     
             REMATCH.addEventListener('click', () => {
-                GAMEBOARD.player1.gameboard = [];
-                GAMEBOARD.player2.gameboard = [];
+                gameboard.player1.gameboard = [];
+                gameboard.player2.gameboard = [];
     
-                GAMEBOARD.forfeit = false;
+                gameboard.forfeit = false;
     
-                for (let i = 0; i < GAMEBOARD.gameboard.length; i++) {
-                    GAMEBOARD.gameboard[i] = null;
+                for (let i = 0; i < gameboard.board.length; i++) {
+                    gameboard.board[i] = null;
                 };
+
+                gameboard.currentTeam = gameboard.player1;
     
                 render.clearContainer();
                 render.drawBoard();
@@ -437,7 +440,7 @@ const render = (() => {
             
             let i = 0;
         
-            GAMEBOARD.gameboard.forEach((pos) => {
+            gameboard.board.forEach((pos) => {
                 const BOX = document.createElement('div'); 
                 BOX.textContent = pos;
                 BOX.style.width = '1fr';
@@ -476,18 +479,18 @@ const render = (() => {
         FORFEIT_P2.textContent = 'Player 2 Forfeit';
         BUTTONSET.className = 'button-set';
         FORFEIT_P1.addEventListener('click', () => {
-            for (let i = 0; i < GAMEBOARD.gameboard.length; i++) {
-                GAMEBOARD.gameboard[i] = `${GAMEBOARD.player2.team}`;
-                GAMEBOARD.forfeit = true;
+            for (let i = 0; i < gameboard.board.length; i++) {
+                gameboard.board[i] = `${gameboard.player2.team}`;
+                gameboard.forfeit = true;
                 render.clearContainer();
                 drawBoard();
             };
         })
     
         FORFEIT_P2.addEventListener('click', () => {
-            for (let i = 0; i < GAMEBOARD.gameboard.length; i++) {
-                GAMEBOARD.gameboard[i] = `${GAMEBOARD.player1.team}`;
-                GAMEBOARD.forfeit = true;
+            for (let i = 0; i < gameboard.board.length; i++) {
+                gameboard.board[i] = `${gameboard.player1.team}`;
+                gameboard.forfeit = true;
                 clearContainer();
                 drawBoard();
             };
@@ -502,9 +505,9 @@ const render = (() => {
         
         let i = 0;
         
-        GAMEBOARD.gameboard.forEach((pos) => {
+        gameboard.board.forEach((pos) => {
             const BOX = document.createElement('div'); 
-            BOX.addEventListener('click', GAMEBOARD.makeMove);
+            BOX.addEventListener('click', gameboard.makeMove);
     
             BOX.textContent = pos;
             BOX.style.width = '1fr';
