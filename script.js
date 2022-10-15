@@ -330,34 +330,9 @@ const gameController = (() => {
                 REMATCH.textContent = 'Rematch';
                 STARTOVER.textContent = 'Start Over';
 
-                STARTOVER.addEventListener('click', () => {
-                    player1.gameboard = [];
-                    player2.gameboard = [];
+                STARTOVER.addEventListener('click', startOverGame);
 
-                    forfeit = false;
-
-                    for (let i = 0; i < gameboard.board.length; i++) {
-                        board[i] = null;
-                    }
-
-                    render.clearContainer();
-                    intro.createIntroItems();
-                });
-
-                REMATCH.addEventListener('click', () => {
-                    player1.gameboard = [];
-                    player2.gameboard = [];
-
-                    for (let i = 0; i < board.length; i++) {
-                        board[i] = null;
-                    };
-
-                    currentTeam = player1;
-                
-                    
-                    render.clearContainer();
-                    render.drawBoard();
-                });
+                REMATCH.addEventListener('click', rematch);
 
                 let children = BUTTONSET.children;
                 for (let i = children.length - 1; i > -1; i--) {
@@ -378,7 +353,7 @@ const gameController = (() => {
         } else {
             return player1;
         }
-    } 
+    }
 
     const debug = () => {
         console.log(player1);
@@ -387,17 +362,73 @@ const gameController = (() => {
         return 'complete'
     }
 
+    const player1Forfeit = () => {
+        forfeit = true;
+        for (let i = 0; i < board.length; i++) { 
+            board[i] = player2.team;
+        };
+        render.clearContainer();
+        render.drawBoard();
+    }
+
+    const player2Forfeit = () => {
+        forfeit = true;
+        for (let i = 0; i < board.length; i++) { 
+            board[i] = player1.team;
+            render.clearContainer();
+            render.drawBoard();
+        };
+    }
+
+    const getForfeit = () => {
+        return forfeit;
+    }
+
+    const rematch = () => {
+        player1.gameboard = [];
+        player2.gameboard = [];
+
+        forfeit = false;
+
+        for (let i = 0; i < board.length; i++) {
+            board[i] = null;
+        };
+
+        currentTeam = player1;
+
+        render.clearContainer();
+        render.drawBoard();
+    }
+
+    const startOverGame = () => {
+        player1.gameboard = [];
+        player2.gameboard = [];
+
+        forfeit = false;
+
+        for (let i = 0; i < gameboard.board.length; i++) {
+            board[i] = null;
+        }
+
+        render.clearContainer();
+        intro.createIntroItems();
+    }
+
     return {
         board,
         player1,
         player2,
         currentTeam,
-        forfeit,
         Player,
         setTeams,
         makeMove,
         checker,
         switchTeams,
+        rematch,
+        startOverGame,
+        player1Forfeit,
+        player2Forfeit,
+        getForfeit,
         debug
     }
 })();
@@ -406,14 +437,11 @@ const render = (() => {
 
     let player1;
     let player2;
+    let board;
+    let forfeit
 
-    const drawBoard = () => { 
-        (function getPlayerInfo() {
-            player1 = gameController.player1;
-            player2 = gameController.player2;
-        })();
-
-        if (gameController.forfeit === true) {
+    const drawBoard = () => {     
+        if (gameController.getForfeit()) {
             const CONTAINER = document.createElement('div');
             CONTAINER.className = 'container forfeit';
     
@@ -431,35 +459,9 @@ const render = (() => {
             STARTOVER.textContent = 'Start Over';
             BUTTONSET.className = 'button-set';
     
-            STARTOVER.addEventListener('click', () => {
-                gameController.player1.gameboard = [];
-                gameController.player2.gameboard = [];
+            STARTOVER.addEventListener('click', gameController.startOverGame);
     
-                gameController.forfeit = false;
-    
-                for (let i = 0; i < gameController.board.length; i++) {
-                    gameController.board[i] = null;
-                }
-    
-                clearContainer();
-                intro.createIntroItems();
-            });
-    
-            REMATCH.addEventListener('click', () => {
-                gameController.player1.gameboard = [];
-                gameController.player2.gameboard = [];
-    
-                gameController.forfeit = false;
-    
-                for (let i = 0; i < gameController.board.length; i++) {
-                    gameController.board[i] = null;
-                };
-
-                gameController.currentTeam = player1;
-    
-                clearContainer();
-                drawBoard();
-            });
+            REMATCH.addEventListener('click', gameController.rematch);
     
     
             
@@ -503,23 +505,9 @@ const render = (() => {
         FORFEIT_P1.textContent = 'Player 1 Forfeit';
         FORFEIT_P2.textContent = 'Player 2 Forfeit';
         BUTTONSET.className = 'button-set';
-        FORFEIT_P1.addEventListener('click', () => {
-            for (let i = 0; i < gameController.board.length; i++) {
-                gameController.board[i] = `${gameController.player2.team}`;
-                gameController.forfeit = true;
-                clearContainer();
-                drawBoard();
-            };
-        })
+        FORFEIT_P1.addEventListener('click', gameController.player1Forfeit);
     
-        FORFEIT_P2.addEventListener('click', () => {
-            for (let i = 0; i < gameController.board.length; i++) {
-                gameController.board[i] = `${player1.team}`;
-                gameController.forfeit = true;
-                clearContainer();
-                drawBoard();
-            };
-        })
+        FORFEIT_P2.addEventListener('click', gameController.player2Forfeit);
     
         BUTTONSET.appendChild(FORFEIT_P1);
         BUTTONSET.appendChild(FORFEIT_P2);
@@ -530,7 +518,7 @@ const render = (() => {
         
         let i = 0;
         
-        gameboard.board.forEach((pos) => {
+        gameController.board.forEach((pos) => {
             const BOX = document.createElement('div'); 
             BOX.addEventListener('click', gameController.makeMove);
     
