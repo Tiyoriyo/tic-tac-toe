@@ -283,76 +283,71 @@ const gameController = (() => {
     }
 
     const checker = (arr, target) => {
-        let result;
+        let isGameWon;
         let playerArray = arr.map(x => x * 1);
-        
-        for (let i = 0; i < target.length; i++) {
-            let boolean = target[i].every(v => playerArray.includes(v));
-
-            
-
-            if (boolean === false) {
-                result = boolean;
-            
-            } else if (boolean === true) {
-                result = boolean;
+        // Check if the game is won/drawn
+        for (let i = 0; i < target.length; i++) {   
+            // Check if playerArray includes a winning combination
+            let boolean = target[i].every(v => playerArray.includes(v));    
+            // set isGameWon variable to status of Boolean
+            if (boolean) {
+                isGameWon = true;
                 break;
+            } else if (!boolean) {
+                isGameWon = false;
+            } 
+            // set isGameWon to draw if all boxes have been used, and there are no winning combinations
+            if (playerArray.length === 5 && !boolean) {
+                isGameWon = 'draw';
             };
+        }
 
-            if (playerArray.length === 5 && boolean === false) {
-                result = 'draw';
-            };
-        };
+        (function(isGameWon, playerArray, target) {
+            const boxes = document.querySelectorAll('.box');
 
-        (function(result, playerArray, target ) {
-            if(result === true || result === 'draw') {  
-                // make all boxes with moves that match forfeitning combination green
-                // make a list of matching boxes
-                // 
-                let boxes = document.querySelectorAll('.box')
-                for (let i = 0; i < boxes.length; i++) {
+            if(isGameWon === true) {
+                // Remove makeMove event function from each gameboard box
+                for (let i = 0; i < boxes.length; i++) {                
                     boxes[i].removeEventListener('click', makeMove);
                 }
-          
 
-                for (let i = 0; i < target.length; i++) {
+                // Change colour of winning squares
+                for (let i = 0; i < target.length; i++) {              
                     let boolean = target[i].every(v => playerArray.includes(v));
 
                     if (boolean) {
-                        let squareList = document.querySelectorAll('.box');
-                        let forfeitningSquares = target[i];
-                        
-                        for (let i = 0; i < forfeitningSquares.length; i++) {
-                            let index = forfeitningSquares[i];
-                            squareList[index].style.backgroundColor = '#d35353';
+                        const winningSquares = target[i];
+
+                        for (let i = 0; i < winningSquares.length; i++) {
+                            let index = winningSquares[i];
+                            boxes[index].style.backgroundColor = '#d35353';
                         }
                     }
                 }
-
-                const BUTTONSET = document.querySelector('.button-set');
-                const REMATCH = document.createElement('button');
-                const STARTOVER = document.createElement('button');
-
-                REMATCH.textContent = 'Rematch';
-                STARTOVER.textContent = 'Start Over';
-
-                STARTOVER.addEventListener('click', startOverGame);
-
-                REMATCH.addEventListener('click', rematch);
-
-                let children = BUTTONSET.children;
-                for (let i = children.length - 1; i > -1; i--) {
-                    children[i].remove();
-                };
-
-                BUTTONSET.appendChild(REMATCH);
-                BUTTONSET.appendChild(STARTOVER);
-            } else if (result === 'draw') {
-                
+                // Add Rematch and Startover buttons
+                addRSButtons();
+            } else if (isGameWon === 'draw') {
+                // Remove makeMove event function from each gameboard box & change colour of all squares
+                for (let i = 0; i < boxes.length; i++) {                
+                    boxes[i].removeEventListener('click', makeMove);
+                    boxes[i].style.backgroundColor = '#d35353';
+                }
+                // Add Rematch and Startover buttons
+                addRSButtons();
             }
-        })(result, playerArray, target);
+        })(isGameWon, playerArray, target);
     };
     
+    const addRSButtons = () => {
+        document.querySelector('.button-set').remove();
+        MAINCONTAINER.innerHTML += `<div class="button-set"><button class='rematch'>Rematch</button><button class='start-over'>Start Over</button></div>`;
+        const rematchBtn = document.querySelector('.rematch');
+        const startOverBtn = document.querySelector('.start-over');
+
+        rematchBtn.addEventListener('click', rematch);
+        startOverBtn.addEventListener('click', startOverGame);
+    }
+
     const switchTeams = () => {
         const newTeam = currentTeam == player1 ? player2 : player1;
         currentTeam = newTeam;
