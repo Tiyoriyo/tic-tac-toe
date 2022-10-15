@@ -398,20 +398,14 @@ const gameController = (() => {
 
     return {
         board,
-        player1,
-        player2,
-        currentTeam,
         Player,
         setTeams,
         makeMove,
-        checker,
-        switchTeams,
         rematch,
         startOverGame,
         player1Forfeit,
         player2Forfeit,
-        getForfeit,
-        
+        getForfeit    
     }
 })();
 
