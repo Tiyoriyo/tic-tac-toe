@@ -4,32 +4,22 @@ const intro = (() => {
     const MAINCONTAINER = document.querySelector('.main-container');
 
     const createIntroItems = () => {
-        const GAMETITLE = document.createElement('h1');
-        GAMETITLE.textContent = 'Tic-Tac-Toe'
-        GAMETITLE.className = 'game-title';
 
-        const BUTTONSET = document.createElement('div');
-        BUTTONSET.className = 'btn-set';
+        MAINCONTAINER.innerHTML += `<h1 class="game-title">Tic-Tac-Toe</h1>
+        <div class="button-set"><button class="intro-btn two-player-btn">Two Player</button>
+        <button class="intro-btn computer-btn">Computer</button>
+        </div>`
 
-        const TWOPLAYER = document.createElement('button');
-        TWOPLAYER.textContent = 'Two Player';
-        TWOPLAYER.className = 'intro-btn two-player-btn';
-        TWOPLAYER.addEventListener('click', () => {
-            BUTTONSET.remove();
+        const TwoPly = document.querySelector('.two-player-btn');
+        const ComputerPly = document.querySelector('.computer-btn');
+        const ButtonSet = document.querySelector('.button-set');
+
+        TwoPly.addEventListener('click', () => {
+            ButtonSet.remove();
             addPlayerInputs();
         });
-        BUTTONSET.appendChild(TWOPLAYER);
-
-        const COMPUTER = document.createElement('button');
-        COMPUTER.textContent = 'Computer';
-        COMPUTER.className = 'intro-btn computer-btn';
-        COMPUTER.addEventListener('click', () => {
-            
-        });
-        BUTTONSET.appendChild(COMPUTER);
-
-        MAINCONTAINER.appendChild(GAMETITLE);
-        MAINCONTAINER.appendChild(BUTTONSET);
+        
+        ComputerPly.addEventListener('click', () => {});
     };
 
     createIntroItems();
@@ -467,7 +457,7 @@ const render = (() => {
         const GAMETITLE = document.querySelector('.game-title');
         const CONTAINER = document.querySelector('.container');
         const BUTTONSET = document.querySelector('.button-set')
-        
+
         if (GAMETITLE) {
             GAMETITLE.remove();
         }
