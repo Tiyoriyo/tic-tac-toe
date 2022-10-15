@@ -239,40 +239,46 @@ const gameController = (() => {
     var currentTeam;
     var forfeit = false;
 
+    // Player Factory Function
     const Player = (name, team) => {
         const gameboard = [];
         return {name, team, gameboard}
     };
     
-    const setTeams = (p1, p2) => {
-        player1 = p1;
-        player2 = p2;
-        currentTeam = p1;
+    // Public function: sets gameController teams
+    const setTeams = (x, y) => {
+        player1 = x;
+        player2 = y;
+        currentTeam = player1;
     }
 
+    // makeMove event function
     const makeMove = (e) => {
-        if (board[e.target.id] === 'X' || board[e.target.id] === 'O') {
-            console.log('no');
+        let pos = e.target.id;
+        let team = currentTeam.team;
+        let gameBoard = currentTeam.gameboard
+
+        if (board[pos] != null) {
             return;
-        } else {
-            if (currentTeam.team === 'X') {
-                currentTeam.gameboard.push(e.target.id);
-                board[e.target.id] = 'X';
-
-                render.clearContainer();
+        }
+        
+        switch(team) {  // // Will set gameboard square to currentTeam, and check for game condition
+            case 'X':
+                board[pos] = 'X';
+                currentTeam.gameboard.push(pos);
                 render.drawBoard();
-                checker(currentTeam.gameboard, winningConditions);
-                currentTeam = switchTeams();
-    
-            } else if (currentTeam.team === 'O') {
-                currentTeam.gameboard.push(e.target.id);
-                board[e.target.id] = 'O';
-
-                render.clearContainer();
+                checker(gameBoard, winningConditions);
+                switchTeams();
+                break;
+            case 'O':
+                board[pos] = 'O';
+                currentTeam.gameboard.push(pos);
                 render.drawBoard();
-                checker(currentTeam.gameboard, winningConditions);
-                currentTeam = switchTeams();
-            }
+                checker(gameBoard, winningConditions);
+                switchTeams();
+                break;
+            default: 
+                return;
         }
     }
 
@@ -348,18 +354,8 @@ const gameController = (() => {
     };
     
     const switchTeams = () => {
-        if (currentTeam === player1) {
-            return player2;
-        } else {
-            return player1;
-        }
-    }
-
-    const debug = () => {
-        console.log(player1);
-        console.log(player2);
-        console.log(currentTeam);
-        return 'complete'
+        const newTeam = currentTeam == player1 ? player2 : player1;
+        currentTeam = newTeam;
     }
 
     const player1Forfeit = () => {
@@ -429,18 +425,14 @@ const gameController = (() => {
         player1Forfeit,
         player2Forfeit,
         getForfeit,
-        debug
+        
     }
 })();
 
 const render = (() => {
 
-    let player1;
-    let player2;
-    let board;
-    let forfeit
-
-    const drawBoard = () => {     
+    const drawBoard = () => {
+        clearContainer();
         if (gameController.getForfeit()) {
             const CONTAINER = document.createElement('div');
             CONTAINER.className = 'container forfeit';
@@ -546,17 +538,10 @@ const render = (() => {
             BUTTONSET.remove();
         }
     }
-
-    const debug = () => {
-        console.log(gameController.player1);
-        console.log(gameController.player2);
-        console.log(gameController.currentTeam);
-    }
     
     return {
         clearContainer,
         drawBoard,
-        debug
     }
 })();
 
