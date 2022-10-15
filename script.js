@@ -414,94 +414,53 @@ const render = (() => {
     const drawBoard = () => {
         clearContainer();
         if (gameController.getForfeit()) {
-            const CONTAINER = document.createElement('div');
-            CONTAINER.className = 'container forfeit';
-    
-            const GAMETITLE = document.createElement('h1');
-            GAMETITLE.textContent = 'Tic-Tac-Toe'
-            GAMETITLE.className = 'game-title';
-    
-            const CANVAS = document.createElement('div');
-            CANVAS.className = 'canvas';
-    
-            const BUTTONSET = document.createElement('div');
-            const REMATCH = document.createElement('button');
-            const STARTOVER = document.createElement('button');
-            REMATCH.textContent = 'Rematch';
-            STARTOVER.textContent = 'Start Over';
-            BUTTONSET.className = 'button-set';
-    
-            STARTOVER.addEventListener('click', gameController.startOverGame);
-    
-            REMATCH.addEventListener('click', gameController.rematch);
-    
-    
+            MAINCONTAINER.innerHTML += `<h1 class="game-title">Tic-Tac-Toe</h1>
+            <div class="container forfeit"><div class="canvas"></div></div>
+            <div class="button-set"><button class="rematch">Rematch</button><button class="start-over">Start Over</button></div>`;
             
-            let i = 0;
-        
-            gameController.board.forEach((pos) => {
-                const BOX = document.createElement('div'); 
-                BOX.textContent = pos;
-                BOX.style.width = '1fr';
-                BOX.style.height = '1fr';
-                BOX.className = 'box noselect forfeit';
-                BOX.setAttribute('id', `${i}`);
-                i++;
-                CANVAS.appendChild(BOX);
-            });
-            CONTAINER.appendChild(CANVAS);
-            BUTTONSET.appendChild(REMATCH);
-            BUTTONSET.appendChild(STARTOVER);
-            MAINCONTAINER.appendChild(GAMETITLE);
-            MAINCONTAINER.appendChild(CONTAINER);
-            MAINCONTAINER.appendChild(BUTTONSET);
+            const Canvas = document.querySelector('.canvas');
+            const rematchBtn = document.querySelector('.rematch');
+            const startOverBtn = document.querySelector('.start-over');
+
+            rematchBtn.addEventListener('click', gameController.rematch);
+            startOverBtn.addEventListener('click', gameController.startOverGame);
             
+            for (let i = 0; i < gameController.board.length; i++) {
+                const Box = document.createElement('div');
+                Box.textContent = gameController.board[i]; 
+                Box.style.width = '1fr';
+                Box.style.height = '1fr';
+                Box.className = 'box noselect forfeit';
+                Box.setAttribute('id', `${i}`);
+                Canvas.appendChild(Box);
+            }
+           
             return;
         }
 
-        const CONTAINER = document.createElement('div');
-        CONTAINER.className = 'container';
+        MAINCONTAINER.innerHTML += `<h1 class="game-title">Tic-Tac-Toe</h1>
+        <div class="container"><div class="canvas"></div></div>
+        <div class="button-set"><button class="forfeit-p1">Player 1 Forfeit</button><button class="forfeit-p2">Player 2 Forfeit</button></div>`;
+
+        const Canvas = document.querySelector('.canvas');
+        const ForfeitP1 = document.querySelector('.forfeit-p1');
+        const ForfeitP2 = document.querySelector('.forfeit-p2');
+
+        ForfeitP1.addEventListener('click', gameController.player1Forfeit);    
+        ForfeitP2.addEventListener('click', gameController.player2Forfeit);
         
-        const GAMETITLE = document.createElement('h1');
-        GAMETITLE.textContent = 'Tic-Tac-Toe'
-        GAMETITLE.className = 'game-title';
-    
-        const CANVAS = document.createElement('div');
-        CANVAS.className = 'canvas';
-    
-        const BUTTONSET = document.createElement('div');
-        BUTTONSET.className = 'button-set';
-    
-        const FORFEIT_P1 = document.createElement('button');
-        const FORFEIT_P2 = document.createElement('button');
-        FORFEIT_P1.textContent = 'Player 1 Forfeit';
-        FORFEIT_P2.textContent = 'Player 2 Forfeit';
-        BUTTONSET.className = 'button-set';
-        FORFEIT_P1.addEventListener('click', gameController.player1Forfeit);
-    
-        FORFEIT_P2.addEventListener('click', gameController.player2Forfeit);
-    
-        BUTTONSET.appendChild(FORFEIT_P1);
-        BUTTONSET.appendChild(FORFEIT_P2);
-        CONTAINER.appendChild(CANVAS);
-        MAINCONTAINER.appendChild(GAMETITLE);
-        MAINCONTAINER.appendChild(CONTAINER);
-        MAINCONTAINER.appendChild(BUTTONSET);
+        for (let i = 0; i < gameController.board.length; i++) {
+            const Box = document.createElement('div');
+            Box.addEventListener('click', gameController.makeMove);
+            Box.textContent = gameController.board[i]; 
+            Box.style.width = '1fr';
+            Box.style.height = '1fr';
+            Box.className = 'box noselect';
+            Box.setAttribute('id', `${i}`);
+            Canvas.appendChild(Box);
+        }
         
-        let i = 0;
-        
-        gameController.board.forEach((pos) => {
-            const BOX = document.createElement('div'); 
-            BOX.addEventListener('click', gameController.makeMove);
-    
-            BOX.textContent = pos;
-            BOX.style.width = '1fr';
-            BOX.style.height = '1fr';
-            BOX.className = 'box noselect';
-            BOX.setAttribute('id', `${i}`);
-            i++;
-            CANVAS.appendChild(BOX);
-        });
+        return;
     }
 
     const clearContainer = () => {
