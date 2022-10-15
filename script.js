@@ -383,7 +383,6 @@ const gameController = (() => {
 
         currentTeam = player1;
 
-        render.clearContainer();
         render.drawBoard();
     }
 
