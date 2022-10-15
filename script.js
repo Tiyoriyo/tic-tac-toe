@@ -387,15 +387,11 @@ const gameController = (() => {
     }
 
     const startOverGame = () => {
-        player1.gameboard = [];
-        player2.gameboard = [];
-
         forfeit = false;
 
         for (let i = 0; i < gameboard.board.length; i++) {
             board[i] = null;
         }
-
         render.clearContainer();
         intro.createIntroItems();
     }
