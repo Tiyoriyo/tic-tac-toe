@@ -363,9 +363,8 @@ const gameController = (() => {
         forfeit = true;
         for (let i = 0; i < board.length; i++) { 
             board[i] = player1.team;
-            render.clearContainer();
-            render.drawBoard();
         };
+        render.drawBoard();
     }
 
     const getForfeit = () => {
