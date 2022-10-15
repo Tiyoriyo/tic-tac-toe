@@ -55,14 +55,11 @@ const intro = (() => {
         const Confirm = document.querySelector('.confirm-btn');
         const Back = document.querySelector('.back-btn');
 
-        Confirm.addEventListener('click', dummyFuncConfirm);
-        Back.addEventListener('click', dummyFuncBack);
-
-
-
+        Confirm.addEventListener('click', startGame);
+        Back.addEventListener('click', backToIntro);
     }   
 
-    const dummyFuncConfirm = () => {
+    const startGame = () => {
         const P1Name = document.getElementById('P1_input').value;
         const P2Name = document.getElementById('P2_input').value;
         let P1Choice = null;
@@ -73,6 +70,7 @@ const intro = (() => {
         P1CHOICES.forEach((choice) => {
             if (choice.checked === true) {
                 P1Choice = choice.value;
+                return
             }
         });
 
@@ -81,6 +79,7 @@ const intro = (() => {
         P2CHOICES.forEach((choice) => {
             if (choice.checked === true) {
                 P2Choice = choice.value;
+                return
             }
         });
 
@@ -95,17 +94,13 @@ const intro = (() => {
 
             gameController.setTeams(player1, player2);
            
-            let children = MAINCONTAINER.children;
-            Array.prototype.forEach.call(children, (child) => child.remove());
-            children[0].remove(); // Final remove() because forEach wasn't deleting every node
+            MAINCONTAINER.innerHTML = '';
             render.drawBoard(); 
         }
     }
 
-    const dummyFuncBack = () => {
-        let children = MAINCONTAINER.children;
-        Array.prototype.forEach.call(children, (child) => child.remove());
-        children[0].remove(); // Final remove() because forEach wasn't deleting every node
+    const backToIntro = () => {
+        MAINCONTAINER.innerHTML = '';
         createIntroItems(); // Restart module
     }
 
