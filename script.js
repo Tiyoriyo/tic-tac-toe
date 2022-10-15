@@ -467,6 +467,7 @@ const render = (() => {
         const GAMETITLE = document.querySelector('.game-title');
         const CONTAINER = document.querySelector('.container');
         const BUTTONSET = document.querySelector('.button-set')
+        
         if (GAMETITLE) {
             GAMETITLE.remove();
         }
