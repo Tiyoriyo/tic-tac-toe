@@ -287,16 +287,15 @@ const gameController = (() => {
         let playerArray = arr.map(x => x * 1);
         // Check if the game is won/drawn
         for (let i = 0; i < target.length; i++) {   
-            // Check if playerArray includes a winning combination
             let boolean = target[i].every(v => playerArray.includes(v));    
-            // set isGameWon variable to status of Boolean
+           
             if (boolean) {
                 isGameWon = true;
                 break;
             } else if (!boolean) {
                 isGameWon = false;
             } 
-            // set isGameWon to draw if all boxes have been used, and there are no winning combinations
+        
             if (playerArray.length === 5 && !boolean) {
                 isGameWon = 'draw';
             };
@@ -343,7 +342,6 @@ const gameController = (() => {
         MAINCONTAINER.innerHTML += `<div class="button-set"><button class='rematch'>Rematch</button><button class='start-over'>Start Over</button></div>`;
         const rematchBtn = document.querySelector('.rematch');
         const startOverBtn = document.querySelector('.start-over');
-
         rematchBtn.addEventListener('click', rematch);
         startOverBtn.addEventListener('click', startOverGame);
     }
@@ -358,7 +356,6 @@ const gameController = (() => {
         for (let i = 0; i < board.length; i++) { 
             board[i] = player2.team;
         };
-        render.clearContainer();
         render.drawBoard();
     }
 
