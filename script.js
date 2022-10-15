@@ -4,7 +4,7 @@ const intro = (() => {
     const MAINCONTAINER = document.querySelector('.main-container');
 
     const createIntroItems = () => {
-        MAINCONTAINER.innerHTML += `<h1 class="game-title">Tic-Tac-Toe</h1>
+        MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
         <div class="button-set"><button class="intro-btn two-player-btn">Two Player</button>
         <button class="intro-btn computer-btn">Computer</button>
         </div>`
@@ -318,7 +318,7 @@ const render = (() => {
     const drawBoard = () => {
         clearContainer();
         if (gameController.getForfeit()) {
-            MAINCONTAINER.innerHTML += `<h1 class="game-title">Tic-Tac-Toe</h1>
+            MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
             <div class="container forfeit"><div class="canvas"></div></div>
             <div class="button-set"><button class="rematch">Rematch</button><button class="start-over">Start Over</button></div>`;
             
@@ -342,7 +342,7 @@ const render = (() => {
             return;
         }
 
-        MAINCONTAINER.innerHTML += `<h1 class="game-title">Tic-Tac-Toe</h1>
+        MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
         <div class="container"><div class="canvas"></div></div>
         <div class="button-set"><button class="forfeit-p1">Player 1 Forfeit</button><button class="forfeit-p2">Player 2 Forfeit</button></div>`;
 
