@@ -177,6 +177,7 @@ const gameboard = (() => {
 
 
 const gameController = (() => {
+    let forfeitTeam;
     let isGameAI = false;
     let isGameOver = false;
     let board = gameboard.board;
@@ -349,6 +350,8 @@ const gameController = (() => {
 
     const player1Forfeit = () => {
         forfeit = true;
+        forfeitTeam = player2.team;
+
         for (let i = 0; i < board.length; i++) { 
             if (board[i] == null) {
                 board[i] = player2.team;
@@ -359,6 +362,8 @@ const gameController = (() => {
 
     const player2Forfeit = () => {
         forfeit = true;
+        forfeitTeam = player2.team;
+
         for (let i = 0; i < board.length; i++) { 
             if (board[i] == null) {
                 board[i] = player1.team;
@@ -375,11 +380,17 @@ const gameController = (() => {
         return isGameAI;
     }
 
+    const getForfeitTeam = () => {
+        return forfeitTeam;
+    }
+
     const rematch = () => {
         player1.gameboard = [];
         player2.gameboard = [];
 
         forfeit = false;
+        forfeitTeam = undefined;
+        isGameAI = false;
         isGameOver = false;
 
         for (let i = 0; i < board.length; i++) {
@@ -393,6 +404,8 @@ const gameController = (() => {
 
     const startOverGame = () => {
         forfeit = false;
+        forfeitTeam = undefined;
+        isGameAI = false;
         isGameOver = false;
 
         for (let i = 0; i < gameboard.board.length; i++) {
@@ -420,6 +433,7 @@ const gameController = (() => {
         player1Forfeit,
         player2Forfeit,
         getForfeit,
+        getForfeitTeam,
         getAI,
         isGameAI,
         debug
@@ -448,7 +462,12 @@ const render = (() => {
                     Box.textContent = gameController.board[i]; 
                     Box.style.width = '1fr';
                     Box.style.height = '1fr';
-                    Box.className = 'box noselect forfeit';
+                    if (gameController.board[i] == gameController.getForfeitTeam()) {
+                        console.log('yo');
+                        Box.className = 'box noselect forfeitTeam';
+                    } else {
+                        Box.className = 'box noselect forfeit';
+                    }
                     Box.setAttribute('id', `${i}`);
                     Canvas.appendChild(Box);
                 }
@@ -493,7 +512,12 @@ const render = (() => {
                     Box.textContent = gameController.board[i]; 
                     Box.style.width = '1fr';
                     Box.style.height = '1fr';
-                    Box.className = 'box noselect forfeit';
+                    if (gameController.board[i] == gameController.getForfeitTeam()) {
+                        console.log('yo');
+                        Box.className = 'box noselect forfeitTeam';
+                    } else {
+                        Box.className = 'box noselect forfeit';
+                    }
                     Box.setAttribute('id', `${i}`);
                     Canvas.appendChild(Box);
                 }

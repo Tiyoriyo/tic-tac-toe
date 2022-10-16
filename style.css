@@ -67,6 +67,11 @@ body {
     color: #133625;
 }
 
+.forfeitTeam {
+    background-color: #40b27b;
+    color: #a7f4ce;
+}
+
 body > div.main-container > div.forfeit {
     border: 1px solid #133625;
 }
