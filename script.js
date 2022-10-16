@@ -2,6 +2,7 @@ const MAINCONTAINER = document.querySelector('.main-container');
 
 const intro = (() => {
     const MAINCONTAINER = document.querySelector('.main-container');
+    let gameType;
 
     const createIntroItems = () => {
         MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
@@ -15,18 +16,21 @@ const intro = (() => {
 
         TwoPly.addEventListener('click', () => {
             ButtonSet.remove();
-            addPlayerInputs('twoPlayer');
+            gameType = 'twoPlayer';
+            addPlayerInputs();
         });
         
         ComputerPly.addEventListener('click', () => {
             ButtonSet.remove();
-            addPlayerInputs('computer');
+            gameType = 'computer';
+            gameController.setGameTypeAI();
+            addPlayerInputs();
         });
     };
 
     createIntroItems();
 
-    const addPlayerInputs = (gameType) => {
+    const addPlayerInputs = () => {
         if (gameType =='twoPlayer') {
             MAINCONTAINER.innerHTML += `<div style="display: flex;">
                                             <div style="display: flex; flex-direction: column;">
@@ -71,48 +75,70 @@ const intro = (() => {
 
         const Confirm = document.querySelector('.confirm-btn');
         const Back = document.querySelector('.back-btn');
-
+        
         Confirm.addEventListener('click', startGame);
         Back.addEventListener('click', backToIntro);
     }   
 
     const startGame = () => {
-        const P1Name = document.getElementById('P1_input').value;
-        const P2Name = document.getElementById('P2_input').value;
-        let P1Choice = null;
-        let P2Choice = null;
-        
-        //Finds Player 1 team choice
-        const P1CHOICES = document.querySelectorAll('.P1Choice');
-        P1CHOICES.forEach((choice) => {
-            if (choice.checked === true) {
-                P1Choice = choice.value;
-                return
+        if (gameType == 'twoPlayer') {
+            console.log('works');
+            const P1Name = document.getElementById('P1_input').value;
+            const P2Name = document.getElementById('P2_input').value;
+            let P1Choice = null;
+            let P2Choice = null;
+            
+            //Finds Player 1 team choice
+            const P1CHOICES = document.querySelectorAll('.P1Choice');
+            P1CHOICES.forEach((choice) => {
+                if (choice.checked === true) {
+                    P1Choice = choice.value;
+                    return
+                }
+            });
+    
+            //Finds Player 2 team choice
+            const P2CHOICES = document.querySelectorAll('.P2Choice')
+            P2CHOICES.forEach((choice) => {
+                if (choice.checked === true) {
+                    P2Choice = choice.value;
+                    return
+                }
+            });
+    
+            //CHECKS IF BOTH PLAYERS HAVE THE SAME TEAMS
+            if (P1Choice === P2Choice) {
+                alert('You must have different choices');
+            } else if (!P1Choice || !P2Choice) {
+                alert('You need to pick a team');
+            } else {
+                let player1 = gameController.Player(P1Name, P1Choice);
+                let player2 = gameController.Player(P2Name, P2Choice);
+    
+                gameController.setTeams(player1, player2);
+               
+                MAINCONTAINER.innerHTML = '';
+                render.drawBoard(); 
             }
-        });
+        } else if (gameType == 'computer') {
+            console.log('works');
+            let P1Choice = null;
+            console.log('yo');
+            const P1Choices = document.querySelectorAll('.P1Choice');
+            P1Choices.forEach((choice) => {
+                if (choice.checked === true) {
+                    P1Choice = choice.value;
+                    return;
+                }
+            })
 
-        //Finds Player 2 team choice
-        const P2CHOICES = document.querySelectorAll('.P2Choice')
-        P2CHOICES.forEach((choice) => {
-            if (choice.checked === true) {
-                P2Choice = choice.value;
-                return
-            }
-        });
+            let player1 = gameController.Player('Player 1', P1Choice);
+            let computer = gameController.Computer(player1);
+            gameController.setTeams(player1, computer);
 
-        //CHECKS IF BOTH PLAYERS HAVE THE SAME TEAMS
-        if (P1Choice === P2Choice) {
-            alert('You must have different choices');
-        } else if (!P1Choice || !P2Choice) {
-            alert('You need to pick a team');
-        } else {
-            let player1 = gameController.Player(P1Name, P1Choice);
-            let player2 = gameController.Player(P2Name, P2Choice);
-
-            gameController.setTeams(player1, player2);
-           
             MAINCONTAINER.innerHTML = '';
-            render.drawBoard(); 
+            render.drawBoard();
+
         }
     }
 
@@ -168,10 +194,10 @@ const gameController = (() => {
     };
 
     // Computer Factory Function
-    const Computer = () => {
+    const Computer = (player) => {
         const gameboard = [];
         const team = (() => {
-            if (player1 == 'X') {
+            if (player.team == 'X') {
                 return 'O';
             } else {
                 return 'X';
@@ -188,7 +214,7 @@ const gameController = (() => {
         currentTeam = player1;
     }
 
-    const setGameTypeAI = (x) => {
+    const setGameTypeAI = () => {
         isGameAI = true;
     }
 
@@ -347,7 +373,8 @@ const gameController = (() => {
         startOverGame,
         player1Forfeit,
         player2Forfeit,
-        getForfeit    
+        getForfeit,
+        isGameAI 
     }
 })();
 
