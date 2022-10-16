@@ -251,15 +251,18 @@ const gameController = (() => {
             if (isGameOver) {
                 return;
             } else {
-                nextMove();
-                checker(player2.gameboard, winningConditions);
-                console.log(player2.gameboard);
+                setTimeout(() => {
+                    nextMove();
+                    checker(player2.gameboard, winningConditions);
+                }, 1000);
+                
             }
         }
     }
 
     const nextMove = () => {
         let index = Math.floor(Math.random() * board.length);
+
         if (board[index] != null) {
             nextMove();
         } else {
