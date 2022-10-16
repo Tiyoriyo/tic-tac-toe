@@ -15,42 +15,59 @@ const intro = (() => {
 
         TwoPly.addEventListener('click', () => {
             ButtonSet.remove();
-            addPlayerInputs();
+            addPlayerInputs('twoPlayer');
         });
         
-        ComputerPly.addEventListener('click', () => {});
+        ComputerPly.addEventListener('click', () => {
+            ButtonSet.remove();
+            addPlayerInputs('computer');
+        });
     };
 
     createIntroItems();
 
-    const addPlayerInputs = () => {
-        MAINCONTAINER.innerHTML += `<div style="display: flex;">
-        <div style="display: flex; flex-direction: column;">
-        <label>Player 1 Name</label>
-        <input id="P1_input">
-        <div style="display: flex;">
-        <p>X</p>
-        <input type="radio" value="X" name="P1Choice" class="P1Choice">
-        <p>O</p>
-        <input type="radio" value="O" name="P1Choice" class="P1Choice">
-        </div>
-        </div>
-        <div style="display: flex; flex-direction: column;">
-        <label>Player 2 Name</label>
-        <input id="P2_input">
-        <div style="display: flex;">
-        <p>X</p>
-        <input type="radio" value="X" name="P2Choice" class="P2Choice">
-        <p>O</p>
-        <input type="radio" value="O" name="P2Choice" class="P2Choice">
-        </div>
-        </div>
-        </div>
-        <div style="display: flex;">
-        <button class="confirm-btn">Confirm</button>
-        <button class="back-btn">Back</button>
-        </div>
-        </div>`
+    const addPlayerInputs = (gameType) => {
+        if (gameType =='twoPlayer') {
+            MAINCONTAINER.innerHTML += `<div style="display: flex;">
+                                            <div style="display: flex; flex-direction: column;">
+                                                <label>Player 1 Name</label>
+                                                <input id="P1_input">
+                                                <div style="display: flex;">
+                                                    <p>X</p>
+                                                    <input type="radio" value="X" name="P1Choice" class="P1Choice">
+                                                    <p>O</p>
+                                                    <input type="radio" value="O" name="P1Choice" class="P1Choice">
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column;">
+                                                <label>Player 2 Name</label>
+                                                <input id="P2_input">
+                                                <div style="display: flex;">
+                                                    <p>X</p>
+                                                    <input type="radio" value="X" name="P2Choice" class="P2Choice">
+                                                    <p>O</p>
+                                                    <input type="radio" value="O" name="P2Choice" class="P2Choice">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex;">
+                                            <button class="confirm-btn">Confirm</button>
+                                            <button class="back-btn">Back</button>
+                                        </div>`
+        } else if (gameType == 'computer') {
+            MAINCONTAINER.innerHTML += `<div style="display: flex;">
+                                                <div style="display: flex;">
+                                                    <p>X</p>
+                                                    <input type="radio" value="X" name="P1Choice" class="P1Choice">
+                                                    <p>O</p>
+                                                    <input type="radio" value="O" name="P1Choice" class="P1Choice">
+                                                </div>
+                                        </div>
+                                        <div style="display: flex;">
+                                            <button class="confirm-btn">Confirm</button>
+                                            <button class="back-btn">Back</button>
+                                        </div>`
+        }
 
         const Confirm = document.querySelector('.confirm-btn');
         const Back = document.querySelector('.back-btn');
@@ -147,6 +164,20 @@ const gameController = (() => {
     const Player = (name, team) => {
         const gameboard = [];
         return {name, team, gameboard}
+    };
+
+    // Computer Factory Function
+    const Computer = () => {
+        const gameboard = [];
+        const team = (() => {
+            if (player1 == 'X') {
+                return 'O';
+            } else {
+                return 'X';
+            };
+        })();
+
+        return {gameboard, team};
     };
     
     // Public function: sets gameController teams
