@@ -252,6 +252,8 @@ const gameController = (() => {
                 return;
             } else {
                 nextMove();
+                checker(player2.gameboard, winningConditions);
+                console.log(player2.gameboard);
             }
         }
     }
@@ -262,6 +264,7 @@ const gameController = (() => {
             nextMove();
         } else {
             board[index] = player2.team;
+            player2.gameboard.push(`${index}`);
             render.drawBoard();
         }
     }
@@ -333,7 +336,9 @@ const gameController = (() => {
     }
 
     const switchTeams = () => {
-        if (isGameAI) {return};
+        if (isGameAI) {
+            return
+        };
 
         const newTeam = currentTeam == player1 ? player2 : player1;
         currentTeam = newTeam;
@@ -396,6 +401,8 @@ const gameController = (() => {
 
     const debug = () => {
         console.log(isGameAI);
+        console.log(player1);
+        console.log(player2);
     }
 
     return {
