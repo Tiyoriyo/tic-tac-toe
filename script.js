@@ -392,6 +392,49 @@ const render = (() => {
     const drawBoard = () => {
         clearContainer();
         if (gameController.getAI()) {
+            if (gameController.getForfeit()) {
+                MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
+                <div class="container forfeit"><div class="canvas"></div></div>
+                <div class="button-set"><button class="rematch">Rematch</button><button class="start-over">Start Over</button></div>`;
+                
+                const Canvas = document.querySelector('.canvas');
+                const rematchBtn = document.querySelector('.rematch');
+                const startOverBtn = document.querySelector('.start-over');
+    
+                rematchBtn.addEventListener('click', gameController.rematch);
+                startOverBtn.addEventListener('click', gameController.startOverGame);
+                
+                for (let i = 0; i < gameController.board.length; i++) {
+                    const Box = document.createElement('div');
+                    Box.textContent = gameController.board[i]; 
+                    Box.style.width = '1fr';
+                    Box.style.height = '1fr';
+                    Box.className = 'box noselect forfeit';
+                    Box.setAttribute('id', `${i}`);
+                    Canvas.appendChild(Box);
+                }
+               
+                return;
+            }
+            
+            MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
+            <div class="container"><div class="canvas"></div></div>
+            <div class="button-set"><button class="forfeit-p1">Player 1 Forfeit</button></div>`;
+
+            const Canvas = document.querySelector('.canvas');
+            const ForfeitP1 = document.querySelector('.forfeit-p1');
+            ForfeitP1.addEventListener('click', gameController.player1Forfeit);
+
+            for (let i = 0; i < gameController.board.length; i++) {
+                const Box = document.createElement('div');
+                Box.addEventListener('click', gameController.makeMove);
+                Box.textContent = gameController.board[i]; 
+                Box.style.width = '1fr';
+                Box.style.height = '1fr';
+                Box.className = 'box noselect';
+                Box.setAttribute('id', `${i}`);
+                Canvas.appendChild(Box);
+            }
             
         } else if (!gameController.getAI()) {
             if (gameController.getForfeit()) {
