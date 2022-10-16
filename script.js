@@ -152,6 +152,7 @@ const gameboard = (() => {
 
 
 const gameController = (() => {
+    let isGameAI;
     let board = gameboard.board;
     let winningConditions = gameboard.winningConditions;
 
@@ -185,6 +186,10 @@ const gameController = (() => {
         player1 = x;
         player2 = y;
         currentTeam = player1;
+    }
+
+    const setGameTypeAI = (x) => {
+        isGameAI = true;
     }
 
     // makeMove event function
@@ -334,7 +339,9 @@ const gameController = (() => {
     return {
         board,
         Player,
+        Computer,
         setTeams,
+        setGameTypeAI,
         makeMove,
         rematch,
         startOverGame,
