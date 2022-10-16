@@ -178,6 +178,7 @@ const gameboard = (() => {
 
 const gameController = (() => {
     let isGameAI = false;
+    let isGameOver = false;
     let board = gameboard.board;
     let winningConditions = gameboard.winningConditions;
 
@@ -245,6 +246,24 @@ const gameController = (() => {
             default: 
                 return;
         }
+
+        if (isGameAI) {
+            if (isGameOver) {
+                return;
+            } else {
+                nextMove();
+            }
+        }
+    }
+
+    const nextMove = () => {
+        let index = Math.floor(Math.random() * board.length);
+        if (board[index] != null) {
+            nextMove();
+        } else {
+            board[index] = player2.team;
+            render.drawBoard();
+        }
     }
 
     const checker = (arr, target) => {
@@ -288,6 +307,7 @@ const gameController = (() => {
                         }
                     }
                 }
+                isGameOver = true;
                 // Add Rematch and Startover buttons
                 addRSButtons();
             } else if (isGameWon === 'draw') {
@@ -296,6 +316,7 @@ const gameController = (() => {
                     boxes[i].removeEventListener('click', makeMove);
                     boxes[i].style.backgroundColor = '#d35353';
                 }
+                isGameOver = true;
                 // Add Rematch and Startover buttons
                 addRSButtons();
             }
@@ -312,6 +333,8 @@ const gameController = (() => {
     }
 
     const switchTeams = () => {
+        if (isGameAI) {return};
+
         const newTeam = currentTeam == player1 ? player2 : player1;
         currentTeam = newTeam;
     }
@@ -319,7 +342,9 @@ const gameController = (() => {
     const player1Forfeit = () => {
         forfeit = true;
         for (let i = 0; i < board.length; i++) { 
-            board[i] = player2.team;
+            if (board[i] == null) {
+                board[i] = player2.team;
+            }
         };
         render.drawBoard();
     }
@@ -327,7 +352,9 @@ const gameController = (() => {
     const player2Forfeit = () => {
         forfeit = true;
         for (let i = 0; i < board.length; i++) { 
-            board[i] = player1.team;
+            if (board[i] == null) {
+                board[i] = player1.team;
+            }
         };
         render.drawBoard();
     }
@@ -345,6 +372,7 @@ const gameController = (() => {
         player2.gameboard = [];
 
         forfeit = false;
+        isGameOver = false;
 
         for (let i = 0; i < board.length; i++) {
             board[i] = null;
@@ -357,6 +385,7 @@ const gameController = (() => {
 
     const startOverGame = () => {
         forfeit = false;
+        isGameOver = false;
 
         for (let i = 0; i < gameboard.board.length; i++) {
             board[i] = null;
