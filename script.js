@@ -261,13 +261,13 @@ const gameController = (() => {
                     box.removeEventListener('click', makeMove);
                     setTimeout(() => {
                         box.addEventListener('click', makeMove);
-                    }, 1000);
+                    }, 500);
                 });
 
                 setTimeout(() => {
                     nextMove();
                     checker(player2.gameboard, winningConditions);
-                }, 1000);
+                }, 500);
                 
             }
         }
