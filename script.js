@@ -256,6 +256,14 @@ const gameController = (() => {
             if (isGameOver) {
                 return;
             } else {
+                let boxes = document.querySelectorAll('.box');
+                boxes.forEach((box) => {
+                    box.removeEventListener('click', makeMove);
+                    setTimeout(() => {
+                        box.addEventListener('click', makeMove);
+                    }, 1000);
+                });
+
                 setTimeout(() => {
                     nextMove();
                     checker(player2.gameboard, winningConditions);
