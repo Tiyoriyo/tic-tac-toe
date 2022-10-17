@@ -81,7 +81,6 @@ const intro = (() => {
 
     const startGame = () => {
         if (gameType == 'twoPlayer') {
-            console.log('works');
             const P1Name = document.getElementById('P1_input').value;
             const P2Name = document.getElementById('P2_input').value;
             let P1Choice = null;
@@ -121,7 +120,7 @@ const intro = (() => {
             }
         } else if (gameType == 'computer') {
             let P1Choice = null;
-        
+            
             const P1Choices = document.querySelectorAll('.P1Choice');
             P1Choices.forEach((choice) => {
                 if (choice.checked === true) {
@@ -130,13 +129,18 @@ const intro = (() => {
                 }
             })
 
-            let player1 = gameController.Player('Player 1', P1Choice);
-            let computer = gameController.Computer(player1);
-            gameController.setTeams(player1, computer);
-            gameController.setGameTypeAI();
+            if (!P1Choice) {
+                alert('You need to pick a team');
+            } else {
+                let player1 = gameController.Player('Player 1', P1Choice);
+                let computer = gameController.Computer(player1);
+                gameController.setTeams(player1, computer);
+                gameController.setGameTypeAI();
+    
+                MAINCONTAINER.innerHTML = '';
+                render.drawBoard();
+            }
 
-            MAINCONTAINER.innerHTML = '';
-            render.drawBoard();
 
         }
     }
@@ -388,9 +392,9 @@ const gameController = (() => {
         player1.gameboard = [];
         player2.gameboard = [];
 
+        if (!isGameAI) {isGameAI = false;}
         forfeit = false;
         forfeitTeam = undefined;
-        isGameAI = false;
         isGameOver = false;
 
         for (let i = 0; i < board.length; i++) {
@@ -463,7 +467,6 @@ const render = (() => {
                     Box.style.width = '1fr';
                     Box.style.height = '1fr';
                     if (gameController.board[i] == gameController.getForfeitTeam()) {
-                        console.log('yo');
                         Box.className = 'box noselect forfeitTeam';
                     } else {
                         Box.className = 'box noselect forfeit';
