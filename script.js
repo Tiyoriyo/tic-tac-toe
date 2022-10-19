@@ -265,7 +265,7 @@ const gameController = (() => {
                 });
 
                 setTimeout(() => {
-                    nextMove();
+                    nextMove(board);
                     checker(player2.gameboard, winningConditions);
                 }, 500);
                 
@@ -273,15 +273,30 @@ const gameController = (() => {
         }
     }
 
-    const nextMove = () => {
-        let index = Math.floor(Math.random() * board.length);
-
-        if (board[index] != null) {
-            nextMove();
-        } else {
-            board[index] = player2.team;
-            player2.gameboard.push(`${index}`);
-            render.drawBoard();
+    const nextMove = (gameboard) => {
+        let computerTeam = player2.team;
+        let bestValue;
+        
+        function minimax(node, depth, maximizingPlayer) {
+            if (depth = 0 || node == terminalNode) {
+                return node
+            }
+            
+            if (maximizingPlayer) {
+                value = -Infinity;
+                node.forEach((child) => {
+                    value = Math.max(value, minimax(child, depth + 1, false));
+                    return value;
+                });
+            } else if (maximizingPlayer == false) {
+                let i = 0;
+                value = +Infinity;
+                child.forEach((child) => {
+                    value = Math.min(value, minimax(child, depth - 1, true));
+                    i++;
+                    return value;
+                })
+            }
         }
     }
 
@@ -304,42 +319,49 @@ const gameController = (() => {
             };
         }
 
-        (function(isGameWon, playerArray, target) {
-            const boxes = document.querySelectorAll('.box');
+        if (isGameAI == true) {
+            if (isGameWon == 'true') {
 
-            if(isGameWon === true) {
-                // Remove makeMove event function from each gameboard box
-                for (let i = 0; i < boxes.length; i++) {                
-                    boxes[i].removeEventListener('click', makeMove);
-                }
-
-                // Change colour of winning squares
-                for (let i = 0; i < target.length; i++) {              
-                    let boolean = target[i].every(v => playerArray.includes(v));
-
-                    if (boolean) {
-                        const winningSquares = target[i];
-
-                        for (let i = 0; i < winningSquares.length; i++) {
-                            let index = winningSquares[i];
-                            boxes[index].style.backgroundColor = '#d35353';
+            }
+        } else {
+            (function(isGameWon, playerArray, target) {
+                const boxes = document.querySelectorAll('.box');
+    
+                if(isGameWon === true) {
+                    // Remove makeMove event function from each gameboard box
+                    for (let i = 0; i < boxes.length; i++) {                
+                        boxes[i].removeEventListener('click', makeMove);
+                    }
+    
+                    // Change colour of winning squares
+                    for (let i = 0; i < target.length; i++) {              
+                        let boolean = target[i].every(v => playerArray.includes(v));
+    
+                        if (boolean) {
+                            const winningSquares = target[i];
+    
+                            for (let i = 0; i < winningSquares.length; i++) {
+                                let index = winningSquares[i];
+                                boxes[index].style.backgroundColor = '#d35353';
+                            }
                         }
                     }
+                    isGameOver = true;
+                    // Add Rematch and Startover buttons
+                    addRSButtons();
+                } else if (isGameWon === 'draw') {
+                    // Remove makeMove event function from each gameboard box & change colour of all squares
+                    for (let i = 0; i < boxes.length; i++) {                
+                        boxes[i].removeEventListener('click', makeMove);
+                        boxes[i].style.backgroundColor = '#d35353';
+                    }
+                    isGameOver = true;
+                    // Add Rematch and Startover buttons
+                    addRSButtons();
                 }
-                isGameOver = true;
-                // Add Rematch and Startover buttons
-                addRSButtons();
-            } else if (isGameWon === 'draw') {
-                // Remove makeMove event function from each gameboard box & change colour of all squares
-                for (let i = 0; i < boxes.length; i++) {                
-                    boxes[i].removeEventListener('click', makeMove);
-                    boxes[i].style.backgroundColor = '#d35353';
-                }
-                isGameOver = true;
-                // Add Rematch and Startover buttons
-                addRSButtons();
-            }
-        })(isGameWon, playerArray, target);
+            })(isGameWon, playerArray, target);
+        }
+
     };
     
     const addRSButtons = () => {
