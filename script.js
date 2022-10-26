@@ -225,7 +225,7 @@ const gameController = (() => {
 
     // makeMove event function
     const makeMove = (e) => {
-        let pos = e.target.id;
+        let pos = +e.target.id;
         let team = currentTeam.team;
         let gameBoard = currentTeam.gameboard
 
@@ -273,30 +273,44 @@ const gameController = (() => {
     }
 
     const bestMove = () => {
+        checkWin();
         // AI to make its turn
         let bestScore = -Infinity
-        let bestMove;
+        let move;
         for (let i = 0; i < board.length; i++) {
             if (board[i] == null) {
                 board[i] = player2.team;
                 player2.gameboard.push(i);
-                let score = minimax(board);
+                let score = minimax(board, depth, true);
                 board[i] = null;
                 player2.gameboard.pop();
                 if (score > bestScore) {
                     bestScore = score;
-                    bestMove = i;
+                    move = i;
                 }
             }
         }
-        board[bestMove] = player2.team;
-        player2.gameboard.push(bestMove);
+        board[move] = player2.team;
+        player2.gameboard.push(move);
         render.drawBoard();
         checker(player2.gameboard, winningConditions);
     }
 
-    const minimax = (board) => {
-        return 1;
+    const minimax = (board, depth, maximizingPlayer) => {
+        let result = checkWin();
+        
+        if (maximizingPlayer) {
+
+        }
+    }
+
+    const checkWin = () => {
+        let enemy = player1;
+        let computer = player2;
+
+        console.log(enemy.gameboard);
+        console.log(computer.gameboard);
+
     }
 
     const checker = (arr, target) => {
@@ -326,7 +340,6 @@ const gameController = (() => {
                 // Remove makeMove event function from each gameboard box
                 for (let i = 0; i < boxes.length; i++) {                
                     boxes[i].removeEventListener('click', makeMove);
-                    console.log('removed event listeners')
                 }
 
                 // Change colour of winning squares
@@ -335,7 +348,6 @@ const gameController = (() => {
 
                     if (boolean) {
                         const winningSquares = target[i];
-                        console.log(winningSquares);
                         for (let i = 0; i < winningSquares.length; i++) {
                             let index = winningSquares[i];
                             boxes[index].style.backgroundColor = '#d35353';
@@ -344,7 +356,6 @@ const gameController = (() => {
                 }
                 isGameOver = true;
                 // Add Rematch and Startover buttons
-                console.log('yo')
                 addRSButtons();
             } else if (isGameWon === 'draw') {
                 // Remove makeMove event function from each gameboard box & change colour of all squares
