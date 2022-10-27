@@ -53,7 +53,7 @@ const intro = (() => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="display: flex;">
+                                        <div class="button-set">
                                             <button class="confirm-btn">Confirm</button>
                                             <button class="back-btn">Back</button>
                                         </div>`
