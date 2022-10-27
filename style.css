@@ -31,6 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 .container {
@@ -60,6 +61,34 @@ body {
     color: #481015;
     text-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.button-set {
+    display: flex;
+    gap: 10px;
+}
+
+.rematch, .start-over {
+    width: 100px;
+    height: 35px;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 4px 1px rgba(0, 0, 0, 0.3);
+
+    cursor: pointer;
+    color:aliceblue;
+}
+
+.rematch {
+    background-color: #e63946;
+}
+
+.start-over {
+    background-color: #40b27b;
+}
+
+.rematch:active, .start-over:active {
+    box-shadow: none;
 }
 
 .forfeit {
