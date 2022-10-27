@@ -273,17 +273,16 @@ const gameController = (() => {
     }
 
     const bestMove = () => {
-        checkWin();
+    
         // AI to make its turn
         let bestScore = -Infinity
         let move;
         for (let i = 0; i < board.length; i++) {
             if (board[i] == null) {
                 board[i] = player2.team;
-                player2.gameboard.push(i);
-                let score = minimax(board, depth, true);
+                let score = minimax(board, 1, false);
+                console.log(score);
                 board[i] = null;
-                player2.gameboard.pop();
                 if (score > bestScore) {
                     bestScore = score;
                     move = i;
@@ -296,20 +295,68 @@ const gameController = (() => {
         checker(player2.gameboard, winningConditions);
     }
 
+    let scores = {
+        computer: 1,
+        enemy: -1,
+        'tie': 0
+    };
+
     const minimax = (board, depth, maximizingPlayer) => {
         let result = checkWin();
+        if (result !== null) {
+            return scores[result];
+        }
         
         if (maximizingPlayer) {
-
+            let bestScore = -Infinity;
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] == null) {
+                    board[i] = player2.team;
+                    let score = minimax(board, depth + 1, false);
+                    board[i] = null;
+                    bestScore = Math.max(score, bestScore);
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = +Infinity;
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] == null) {
+                    board[i] = player1.team;
+                    let score = minimax(board, depth + 1, true)
+                    board[i] = null;
+                    bestScore = Math.min(score, bestScore);
+                }
+            }
+            return bestScore;
         }
     }
 
     const checkWin = () => {
-        let enemy = player1;
-        let computer = player2;
+        
+        for (let i = 0; i < winningConditions.length; i++) {
+            let pos1 = winningConditions[i][0];
+            let pos2 = winningConditions[i][1];
+            let pos3 = winningConditions[i][2];
 
-        console.log(enemy.gameboard);
-        console.log(computer.gameboard);
+            let drawCheck = true;
+
+            for (let j = 0; j < board.length; j++) {
+                if (board[j] == null) {
+                    drawCheck = false;
+                }
+            }
+
+            if (board[pos1] == player1.team && board[pos2] == player1.team && board[pos3] == player1.team) {
+                return 'enemy';
+            } else if (board[pos1] == player2.team && board[pos2] == player2.team && board[pos3] == player2.team) {
+                return 'computer';
+            } else if (drawCheck) {
+                return 'tie';
+            } else {
+                return null;
+            }
+        }
 
     }
 
