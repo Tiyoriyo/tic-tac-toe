@@ -349,7 +349,6 @@ const gameController = (() => {
             if (board[pos1] == player1.team && board[pos2] == player1.team && board[pos3] == player1.team) {
                 return 'enemy';
             } else if (board[pos1] == player2.team && board[pos2] == player2.team && board[pos3] == player2.team) {
-                console.log('computah');
                 return 'computer';
             } else if (drawCheck) {
                 return 'tie';
@@ -449,7 +448,7 @@ const gameController = (() => {
 
     const player2Forfeit = () => {
         forfeit = true;
-        forfeitTeam = player2.team;
+        forfeitTeam = player1.team;
 
         for (let i = 0; i < board.length; i++) { 
             if (board[i] == null) {
