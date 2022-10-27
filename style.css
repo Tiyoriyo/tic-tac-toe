@@ -68,7 +68,7 @@ body {
     gap: 10px;
 }
 
-.rematch, .start-over {
+.rematch, .start-over, .forfeit-p1, .forfeit-p2 {
     width: 100px;
     height: 35px;
     border: 0;
@@ -79,15 +79,15 @@ body {
     color:aliceblue;
 }
 
-.rematch {
+.rematch, .forfeit-p1 {
     background-color: #e63946;
 }
 
-.start-over {
+.start-over, .forfeit-p2 {
     background-color: #40b27b;
 }
 
-.rematch:active, .start-over:active {
+.rematch:active, .start-over:active, .forfeit-p1:active, .forfeit-p2:active {
     box-shadow: none;
 }
 
