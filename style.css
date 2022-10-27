@@ -68,6 +68,31 @@ body {
     gap: 10px;
 }
 
+.intro-btn {
+    border: none;
+    width: 100px;
+    height: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #f1faee;
+}
+
+.two-player-btn {
+    background-color: #e63946;
+}
+
+.computer-btn {
+    background-color: #40b27b;
+}
+
+.computer-btn:hover {
+    background-color: #3aa370;
+} 
+
+.two-player-btn:hover {
+    background-color: #bb2f3b;
+}
+
 .rematch, .start-over, .forfeit-p1, .forfeit-p2 {
     width: 100px;
     height: 35px;
