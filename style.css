@@ -23,6 +23,10 @@ body {
     height: 100vh;
 }
 
+.sig {
+    font-family: monospace;
+}
+
 .main-container, .top, .bottom {
     margin: auto;
 }
@@ -34,6 +38,12 @@ body {
     gap: 10px;
 }
 
+.botton {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
 .container {
     display: flex;
     background-color: #e63946;
@@ -41,6 +51,16 @@ body {
     height: 500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border: 1px solid #ad2a35;
+}
+
+.containerDraw {
+    background-color: rgb(255, 192, 104);
+    border-color: #bb8a0d;
+}   
+
+.boxDraw {
+    background-color: rgb(255, 180, 109);
+    color: #644427 !important;
 }
 
 .canvas {

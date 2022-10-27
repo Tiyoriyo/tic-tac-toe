@@ -382,7 +382,7 @@ const gameController = (() => {
         (function(isGameWon, playerArray, target) {
             const boxes = document.querySelectorAll('.box');
 
-            if(isGameWon === true) {
+            if(isGameWon == true) {
                 // Remove makeMove event function from each gameboard box
                 for (let i = 0; i < boxes.length; i++) {                
                     boxes[i].removeEventListener('click', makeMove);
@@ -405,10 +405,12 @@ const gameController = (() => {
                 addRSButtons();
             } else if (isGameWon === 'draw') {
                 // Remove makeMove event function from each gameboard box & change colour of all squares
+                const CONTAINER = document.querySelector('.container');
                 for (let i = 0; i < boxes.length; i++) {                
                     boxes[i].removeEventListener('click', makeMove);
-                    boxes[i].style.backgroundColor = '#d35353';
+                    boxes[i].classList.add('boxDraw');
                 }
+                CONTAINER.classList.add('containerDraw');
                 isGameOver = true;
                 // Add Rematch and Startover buttons
                 addRSButtons();
