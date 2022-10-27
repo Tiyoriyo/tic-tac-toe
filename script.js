@@ -66,7 +66,7 @@ const intro = (() => {
                                                     <input type="radio" value="O" name="P1Choice" class="P1Choice">
                                                 </div>
                                         </div>
-                                        <div style="display: flex;">
+                                        <div class="button-set">
                                             <button class="confirm-btn">Confirm</button>
                                             <button class="back-btn">Back</button>
                                         </div>`
