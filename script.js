@@ -281,7 +281,6 @@ const gameController = (() => {
             if (board[i] == null) {
                 board[i] = player2.team;
                 let score = minimax(board, 1, false);
-                console.log(score);
                 board[i] = null;
                 if (score > bestScore) {
                     bestScore = score;
@@ -296,8 +295,8 @@ const gameController = (() => {
     }
 
     let scores = {
-        computer: 1,
-        enemy: -1,
+        'computer': 1,
+        'enemy': -1,
         'tie': 0
     };
 
@@ -350,13 +349,14 @@ const gameController = (() => {
             if (board[pos1] == player1.team && board[pos2] == player1.team && board[pos3] == player1.team) {
                 return 'enemy';
             } else if (board[pos1] == player2.team && board[pos2] == player2.team && board[pos3] == player2.team) {
+                console.log('computah');
                 return 'computer';
             } else if (drawCheck) {
                 return 'tie';
-            } else {
-                return null;
             }
         }
+
+        return null;
 
     }
 
