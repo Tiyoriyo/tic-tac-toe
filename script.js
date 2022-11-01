@@ -59,7 +59,7 @@ const intro = (() => {
                                         </div>`
         } else if (gameType == 'computer') {
             MAINCONTAINER.innerHTML += `<div style="display: flex;">
-                                                <div style="display: flex;">
+                                                <div class="intro-field-choices">
                                                     <p>X</p>
                                                     <input type="radio" value="X" name="P1Choice" class="P1Choice">
                                                     <p>O</p>

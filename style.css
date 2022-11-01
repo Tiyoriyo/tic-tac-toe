@@ -10,7 +10,7 @@
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
-  }
+}
 
 body {
     display: flex;
@@ -18,7 +18,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 15px;
-
+    margin: 0;
     background-color: #f1faee;
     height: 100vh;
 }
@@ -188,6 +188,13 @@ body > div.main-container > div.forfeit {
 
 .intro-field-choices1, .intro-field-choices2 {
     display: flex;
+}
+
+.intro-field-choices, .intro-field-choices1, .intro-field-choices2 {
+    display: flex;
+    gap: 5px;
+    font-size: 16px;
+    color: grey;
 }
 
 .intro-field-choices2 {
