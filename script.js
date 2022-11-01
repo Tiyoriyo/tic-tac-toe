@@ -31,25 +31,25 @@ const intro = (() => {
 
     const addPlayerInputs = () => {
         if (gameType =='twoPlayer') {
-            MAINCONTAINER.innerHTML += `<div style="display: flex;">
-                                            <div style="display: flex; flex-direction: column;">
-                                                <label>Player 1 Name</label>
-                                                <input id="P1_input">
-                                                <div style="display: flex;">
-                                                    <p>X</p>
-                                                    <input type="radio" value="X" name="P1Choice" class="P1Choice">
-                                                    <p>O</p>
-                                                    <input type="radio" value="O" name="P1Choice" class="P1Choice">
+            MAINCONTAINER.innerHTML += `<div class="intro-field">
+                                            <div class="intro-field-card">
+                                                <label for="P1_input">Player 1 Name</label>
+                                                <input id="P1_input" autocomplete="off" spellcheck="false">
+                                                <div class="intro-field-choices1">
+                                                    <label for="p1choice1">X</label>
+                                                    <input type="radio" value="X" id="p1choice1" name="P1Choice" class="P1Choice">
+                                                    <label for="p1choice2">O</label>
+                                                    <input type="radio" value="O" id="p1choice2" name="P1Choice" class="P1Choice">
                                                 </div>
                                             </div>
-                                            <div style="display: flex; flex-direction: column;">
-                                                <label>Player 2 Name</label>
-                                                <input id="P2_input">
-                                                <div style="display: flex;">
-                                                    <p>X</p>
-                                                    <input type="radio" value="X" name="P2Choice" class="P2Choice">
-                                                    <p>O</p>
-                                                    <input type="radio" value="O" name="P2Choice" class="P2Choice">
+                                            <div class="intro-field-card">
+                                                <label for="P2_input">Player 2 Name</label>
+                                                <input id="P2_input" autocomplete="off" spellcheck="false">
+                                                <div class="intro-field-choices2">
+                                                    <label for="p2choice1">X</label>
+                                                    <input type="radio" value="X" id="p2choice1" name="radio-group" class="P2Choice">
+                                                    <label for="p2choice2">O</label>
+                                                    <input type="radio" value="O" id="p2choice2" name="radio-group" class="P2Choice">
                                                 </div>
                                             </div>
                                         </div>

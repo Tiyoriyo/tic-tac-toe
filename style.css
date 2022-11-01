@@ -155,6 +155,51 @@ body > div.main-container > div.forfeit {
     border: 1px solid #133625;
 }
 
+.intro-field {
+    display: flex;
+    gap: 20px;
+}
+
+.intro-field-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+#P1_input, #P2_input {
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid rgb(0, 0, 0, 0.3);
+    border-radius: 4px;
+    autocomplete: off;
+    height: 20px;
+    width: 120px;
+}
+
+#P1_input:focus, #P2_input:focus {
+    outline: none;
+    caret-color: rgb(0, 0, 0, 0.3);
+}
+
+.intro-field-choices {
+    display: flex;
+}
+
+.intro-field-choices1, .intro-field-choices2 {
+    display: flex;
+}
+
+.intro-field-choices2 {
+    align-self: flex-start;
+}
+
+.intro-field-choices1 {
+    align-self: flex-end;
+}
+
+
+
 .bottom {
     display: flex;
     gap: 15px;
