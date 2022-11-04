@@ -117,6 +117,7 @@ const intro = (() => {
                
                 MAINCONTAINER.innerHTML = '';
                 render.drawBoard(); 
+                soundPlay.login();
             }
         } else if (gameType == 'computer') {
             let P1Choice = null;
@@ -139,6 +140,7 @@ const intro = (() => {
     
                 MAINCONTAINER.innerHTML = '';
                 render.drawBoard();
+                soundPlay.login();
             }
 
 
@@ -192,8 +194,6 @@ const gameController = (() => {
     var currentTeam;
     var forfeit = false;
 
-    let scribble = new Audio('sound-effect/scribble.mp3');
-
     // Player Factory Function
     const Player = (name, team) => {
         const gameboard = [];
@@ -239,7 +239,7 @@ const gameController = (() => {
             case 'X':
                 board[pos] = 'X';
                 currentTeam.gameboard.push(pos);
-                playScribble();
+                soundPlay.scribble();
                 render.drawBoard();
                 checker(currentTeam, winningConditions);
                 switchTeams();
@@ -247,7 +247,7 @@ const gameController = (() => {
             case 'O':
                 board[pos] = 'O';
                 currentTeam.gameboard.push(pos);
-                playScribble();
+                soundPlay.scribble();
                 render.drawBoard();
                 checker(currentTeam, winningConditions);
                 switchTeams();
@@ -276,12 +276,6 @@ const gameController = (() => {
         }
     }
 
-    const playScribble = () => {
-        scribble.pause();
-        scribble.currentTime = 0;
-        scribble.play();
-    }
-
     const bestMove = () => {
     
         // AI to make its turn
@@ -302,7 +296,7 @@ const gameController = (() => {
         board[move] = player2.team;
         player2.gameboard.push(move);
         render.drawBoard();
-        playScribble();
+        soundPlay.scribble();
         checker(player2, winningConditions);
     }
 
@@ -423,7 +417,7 @@ const gameController = (() => {
 
                 Canvas.className += ' blur';
                 Container.innerHTML += `<p class="z1">${player.name} wins..</p>`;
-                
+                soundPlay.win();
                 
                 isGameOver = true;
                 // Add Rematch and Startover buttons
@@ -438,6 +432,7 @@ const gameController = (() => {
                 Canvas.classList += ' blur';
                 Container.innerHTML += `<p class="z1">Only idiots draw</p>`;
                 isGameOver = true;
+                soundPlay.loss();
                 // Add Rematch and Startover buttons
                 addRSButtons();
             }
@@ -472,6 +467,7 @@ const gameController = (() => {
             }
         };
         render.drawBoard();
+        soundPlay.loss();
     }
 
     const player2Forfeit = () => {
@@ -484,6 +480,7 @@ const gameController = (() => {
             }
         };
         render.drawBoard();
+        soundPlay.loss();
     }
 
     const getForfeit = () => {
@@ -512,8 +509,9 @@ const gameController = (() => {
         };
 
         currentTeam = player1;
-
+    
         render.drawBoard();
+        soundPlay.login();
     }
 
     const startOverGame = () => {
@@ -584,6 +582,8 @@ const render = (() => {
                     Box.setAttribute('id', `${i}`);
                     Canvas.appendChild(Box);
                 }
+
+                soundPlay.loss();
                
                 return;
             }
@@ -680,6 +680,49 @@ const render = (() => {
     return {
         clearContainer,
         drawBoard,
+    }
+})();
+
+const soundPlay = (() => {
+
+    let sAudio = new Audio('/sound-effect/scribble.mp3');
+    let logAudio = new Audio('/sound-effect/login.mp3');
+    let wAudio = new Audio('/sound-effect/win.mp3');
+    let lAudio = new Audio('/sound-effect/loss.mp3');
+
+    const scribble = () => {
+        sAudio.pause();
+        sAudio.currentTime = 0;
+        sAudio.play();
+    };
+
+    const login = () => {
+        logAudio.pause();
+        logAudio.currentTime = 0;
+        logAudio.volume = 0.3
+        logAudio.play();
+    };
+
+    const win = () => {
+        wAudio.pause();
+        wAudio.currentTime = 0;
+        wAudio.volume = 0.3
+        sAudio.pause();
+        wAudio.play();
+    };
+
+    const loss = () => {
+        lAudio.pause();
+        lAudio.currentTime = 0;
+        lAudio.volume = 0.3
+        lAudio.play();
+    };
+
+    return {
+        scribble,
+        login,
+        win,
+        loss
     }
 })();
 
