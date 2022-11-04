@@ -192,6 +192,8 @@ const gameController = (() => {
     var currentTeam;
     var forfeit = false;
 
+    let scribble = new Audio('sound-effect/scribble.mp3');
+
     // Player Factory Function
     const Player = (name, team) => {
         const gameboard = [];
@@ -237,6 +239,9 @@ const gameController = (() => {
             case 'X':
                 board[pos] = 'X';
                 currentTeam.gameboard.push(pos);
+                scribble.pause();
+                scribble.currentTime = 0;
+                scribble.play();
                 render.drawBoard();
                 checker(gameBoard, winningConditions);
                 switchTeams();
@@ -244,6 +249,9 @@ const gameController = (() => {
             case 'O':
                 board[pos] = 'O';
                 currentTeam.gameboard.push(pos);
+                scribble.pause();
+                scribble.currentTime = 0;
+                scribble.play();
                 render.drawBoard();
                 checker(gameBoard, winningConditions);
                 switchTeams();
@@ -261,12 +269,12 @@ const gameController = (() => {
                     box.removeEventListener('click', makeMove);
                     setTimeout(() => {
                         box.addEventListener('click', makeMove);
-                    }, 500);
+                    }, 800);
                 });
 
                 setTimeout(() => {
                     bestMove();
-                }, 500);
+                }, 800);
                 
             }
         }
@@ -292,13 +300,15 @@ const gameController = (() => {
         board[move] = player2.team;
         player2.gameboard.push(move);
         render.drawBoard();
+        scribble.pause();
+        scribble.currentTime = 0;
+        scribble.play();
         checker(player2.gameboard, winningConditions);
     }
 
     const minimax = (board, depth, maximizingPlayer) => {
         let result = checkWin(board);
 
-        
         if (result !== null) {
             return result == 'computer' ? 10 - depth
                 :   result == 'enemy' ? depth - 10
