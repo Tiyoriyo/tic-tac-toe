@@ -239,9 +239,7 @@ const gameController = (() => {
             case 'X':
                 board[pos] = 'X';
                 currentTeam.gameboard.push(pos);
-                scribble.pause();
-                scribble.currentTime = 0;
-                scribble.play();
+                playScribble();
                 render.drawBoard();
                 checker(gameBoard, winningConditions);
                 switchTeams();
@@ -249,9 +247,7 @@ const gameController = (() => {
             case 'O':
                 board[pos] = 'O';
                 currentTeam.gameboard.push(pos);
-                scribble.pause();
-                scribble.currentTime = 0;
-                scribble.play();
+                playScribble();
                 render.drawBoard();
                 checker(gameBoard, winningConditions);
                 switchTeams();
@@ -280,6 +276,12 @@ const gameController = (() => {
         }
     }
 
+    const playScribble = () => {
+        scribble.pause();
+        scribble.currentTime = 0;
+        scribble.play();
+    }
+
     const bestMove = () => {
     
         // AI to make its turn
@@ -300,9 +302,7 @@ const gameController = (() => {
         board[move] = player2.team;
         player2.gameboard.push(move);
         render.drawBoard();
-        scribble.pause();
-        scribble.currentTime = 0;
-        scribble.play();
+        playScribble();
         checker(player2.gameboard, winningConditions);
     }
 
