@@ -295,29 +295,14 @@ const gameController = (() => {
         checker(player2.gameboard, winningConditions);
     }
 
-    let scores = {
-        'computer': 10,
-        'enemy': -10,
-        'tie': 0
-    };
-
     const minimax = (board, depth, maximizingPlayer) => {
         let result = checkWin(board);
 
         
         if (result !== null) {
-            let score;
-
-            if (result == 'computer') {
-                score = 10 - depth;
-                return score;
-            } else if (result == 'enemy') {
-                score = depth - 10;
-                return score;
-            } else if (result =='tie') {
-                return 0;
-            }
-
+            return result == 'computer' ? 10 - depth
+                :   result == 'enemy' ? depth - 10
+                :   0;
         }
         
         if (maximizingPlayer == true) {
@@ -327,9 +312,7 @@ const gameController = (() => {
                     board[i] = player2.team;
                     let score = minimax(board, depth + 1, false);
                     board[i] = null;
-                    if (score > bestScore) {
-                        bestScore = score;
-                    }
+                    bestScore = Math.max(score, bestScore);
                 }
             }
             return bestScore;
@@ -340,9 +323,7 @@ const gameController = (() => {
                     board[i] = player1.team;
                     let score = minimax(board, depth + 1, true)
                     board[i] = null;
-                    if (score < bestScore) {
-                        bestScore = score;
-                    }
+                    bestScore = Math.min(score, bestScore);
                 }
             }
             return bestScore;
