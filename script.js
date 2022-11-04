@@ -693,12 +693,14 @@ const soundPlay = (() => {
     const scribble = () => {
         sAudio.pause();
         sAudio.currentTime = 0;
+        sAudio.volume = 0.3
         sAudio.play();
     };
 
     const login = () => {
         logAudio.pause();
         logAudio.currentTime = 0;
+        logAudio.volume = 0.3
         logAudio.play();
     };
 
@@ -706,12 +708,14 @@ const soundPlay = (() => {
         wAudio.pause();
         wAudio.currentTime = 0;
         sAudio.pause();
+        wAudio.volume = 0.3
         wAudio.play();
     };
 
     const loss = () => {
         lAudio.pause();
         lAudio.currentTime = 0;
+        lAudio.volume = 0.3
         lAudio.play();
     };
 
