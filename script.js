@@ -417,7 +417,12 @@ const gameController = (() => {
 
                 Canvas.className += ' blur';
                 Container.innerHTML += `<p class="z1">${player.name} wins..</p>`;
-                soundPlay.win();
+                
+                if (isGameAI) {
+                    soundPlay.loss()
+                } else {
+                    soundPlay.win();
+                }
                 
                 isGameOver = true;
                 // Add Rematch and Startover buttons
