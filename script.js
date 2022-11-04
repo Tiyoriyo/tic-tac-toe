@@ -685,10 +685,10 @@ const render = (() => {
 
 const soundPlay = (() => {
 
-    let sAudio = new Audio('sound-effect/scribble.mp3');
-    let logAudio = new Audio('sound-effect/login.mp3');
-    let wAudio = new Audio('sound-effect/win.mp3');
-    let lAudio = new Audio('sound-effect/loss.mp3');
+    let sAudio = new Audio('https://github.com/Tiyoriyo/tic-tac-toe/blob/main/sound-effect/scribble.mp3?raw=true');
+    let logAudio = new Audio('https://github.com/Tiyoriyo/tic-tac-toe/blob/main/sound-effect/login.mp3?raw=true');
+    let wAudio = new Audio('https://github.com/Tiyoriyo/tic-tac-toe/blob/main/sound-effect/win.mp3?raw=true');
+    let lAudio = new Audio('https://github.com/Tiyoriyo/tic-tac-toe/blob/main/sound-effect/loss.mp3?raw=true');
 
     const scribble = () => {
         sAudio.pause();
