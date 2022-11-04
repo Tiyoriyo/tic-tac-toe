@@ -685,10 +685,10 @@ const render = (() => {
 
 const soundPlay = (() => {
 
-    let sAudio = new Audio('/sound-effect/scribble.mp3');
-    let logAudio = new Audio('/sound-effect/login.mp3');
-    let wAudio = new Audio('/sound-effect/win.mp3');
-    let lAudio = new Audio('/sound-effect/loss.mp3');
+    let sAudio = new Audio('sound-effect/scribble.mp3');
+    let logAudio = new Audio('sound-effect/login.mp3');
+    let wAudio = new Audio('sound-effect/win.mp3');
+    let lAudio = new Audio('sound-effect/loss.mp3');
 
     const scribble = () => {
         sAudio.pause();
@@ -699,14 +699,12 @@ const soundPlay = (() => {
     const login = () => {
         logAudio.pause();
         logAudio.currentTime = 0;
-        logAudio.volume = 0.3
         logAudio.play();
     };
 
     const win = () => {
         wAudio.pause();
         wAudio.currentTime = 0;
-        wAudio.volume = 0.3
         sAudio.pause();
         wAudio.play();
     };
@@ -714,7 +712,6 @@ const soundPlay = (() => {
     const loss = () => {
         lAudio.pause();
         lAudio.currentTime = 0;
-        lAudio.volume = 0.3
         lAudio.play();
     };
 
