@@ -49,6 +49,7 @@ body {
     background-color: #e63946;
     width: 500px;
     height: 500px;
+    justify-content: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border: 1px solid #ad2a35;
 }
@@ -143,12 +144,23 @@ body {
 
 .forfeit {
     background-color: #40b27b;
-    color: #133625;
+    color: #a7f4ce;
 }
 
-.forfeitTeam {
-    background-color: #40b27b;
-    color: #a7f4ce;
+.blur {
+    filter: blur(10px);
+}
+
+.z1 {
+    position: absolute;
+    z-index: 1;
+    align-self: center;
+
+    color: #f1faee;
+    font-weight: bold;
+    font-size: 36px;
+    filter:drop-shadow(0 5px 5px rgb(0, 0, 0, 0.4));
+    font-family: monospace;
 }
 
 body > div.main-container > div.forfeit {

@@ -202,6 +202,7 @@ const gameController = (() => {
 
     // Computer Factory Function
     const Computer = (player) => {
+        const name = 'Computer';
         const gameboard = [];
         const team = (() => {
             if (player.team == 'X') {
@@ -211,7 +212,7 @@ const gameController = (() => {
             };
         })();
 
-        return {gameboard, team};
+        return {name, gameboard, team};
     };
     
     // Public function: sets gameController teams
@@ -228,8 +229,7 @@ const gameController = (() => {
     // makeMove event function
     const makeMove = (e) => {
         let pos = +e.target.id;
-        let team = currentTeam.team;
-        let gameBoard = currentTeam.gameboard
+        let team = currentTeam.team
 
         if (board[pos] != null) {
             return;
@@ -241,7 +241,7 @@ const gameController = (() => {
                 currentTeam.gameboard.push(pos);
                 playScribble();
                 render.drawBoard();
-                checker(gameBoard, winningConditions);
+                checker(currentTeam, winningConditions);
                 switchTeams();
                 break;
             case 'O':
@@ -249,7 +249,7 @@ const gameController = (() => {
                 currentTeam.gameboard.push(pos);
                 playScribble();
                 render.drawBoard();
-                checker(gameBoard, winningConditions);
+                checker(currentTeam, winningConditions);
                 switchTeams();
                 break;
             default: 
@@ -303,7 +303,7 @@ const gameController = (() => {
         player2.gameboard.push(move);
         render.drawBoard();
         playScribble();
-        checker(player2.gameboard, winningConditions);
+        checker(player2, winningConditions);
     }
 
     const minimax = (board, depth, maximizingPlayer) => {
@@ -370,9 +370,9 @@ const gameController = (() => {
         }
     }
     
-    const checker = (arr, target) => {
+    const checker = (player, target) => {
         let isGameWon;
-        let playerArray = arr.map(x => x * 1);
+        let playerArray = player.gameboard.map(x => x * 1);
         
         // Check if the game is won/drawn
         for (let i = 0; i < target.length; i++) {   
@@ -392,13 +392,15 @@ const gameController = (() => {
 
         (function(isGameWon, playerArray, target) {
             const boxes = document.querySelectorAll('.box');
+            const Container = document.querySelector('.container');
+            const Canvas = document.querySelector('.canvas');
 
             if(isGameWon == true) {
                 // Remove makeMove event function from each gameboard box
                 for (let i = 0; i < boxes.length; i++) {                
                     boxes[i].removeEventListener('click', makeMove);
                 }
-
+                
                 // Change colour of winning squares
                 for (let i = 0; i < target.length; i++) {              
                     let boolean = target[i].every(v => playerArray.includes(v));
@@ -407,21 +409,34 @@ const gameController = (() => {
                         const winningSquares = target[i];
                         for (let i = 0; i < winningSquares.length; i++) {
                             let index = winningSquares[i];
-                            boxes[index].style.backgroundColor = '#d35353';
+                            if(isGameAI) {
+                                boxes[index].style.backgroundColor = '#d35353'
+                            } else {
+                                boxes[index].style.backgroundColor = '#5ed199';
+                            }
+                        }
+                        if(!isGameAI) {
+                            Container.classList += ' forfeit'
                         }
                     }
                 }
+
+                Canvas.className += ' blur';
+                Container.innerHTML += `<p class="z1">${player.name} wins..</p>`;
+                
+                
                 isGameOver = true;
                 // Add Rematch and Startover buttons
                 addRSButtons();
             } else if (isGameWon === 'draw') {
                 // Remove makeMove event function from each gameboard box & change colour of all squares
-                const CONTAINER = document.querySelector('.container');
                 for (let i = 0; i < boxes.length; i++) {                
                     boxes[i].removeEventListener('click', makeMove);
                     boxes[i].classList.add('boxDraw');
                 }
-                CONTAINER.classList.add('containerDraw');
+                Container.classList.add('containerDraw');
+                Canvas.classList += ' blur';
+                Container.innerHTML += `<p class="z1">Only idiots draw</p>`;
                 isGameOver = true;
                 // Add Rematch and Startover buttons
                 addRSButtons();
@@ -449,7 +464,7 @@ const gameController = (() => {
 
     const player1Forfeit = () => {
         forfeit = true;
-        forfeitTeam = player2.team;
+        forfeitTeam = player2.name;
 
         for (let i = 0; i < board.length; i++) { 
             if (board[i] == null) {
@@ -461,7 +476,7 @@ const gameController = (() => {
 
     const player2Forfeit = () => {
         forfeit = true;
-        forfeitTeam = player1.team;
+        forfeitTeam = player1.name;
 
         for (let i = 0; i < board.length; i++) { 
             if (board[i] == null) {
@@ -480,7 +495,7 @@ const gameController = (() => {
     }
 
     const getForfeitTeam = () => {
-        return forfeitTeam;
+        return forfeitTeam
     }
 
     const rematch = () => {
@@ -546,13 +561,17 @@ const render = (() => {
         if (gameController.getAI()) {
             if (gameController.getForfeit()) {
                 MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
-                <div class="container forfeit"><div class="canvas"></div></div>
+                <div class="container"><div class="canvas blur"></div></div>
                 <div class="button-set"><button class="rematch">Rematch</button><button class="start-over">Start Over</button></div>`;
-                
+
+                const Container = document.querySelector('.container');
+                Container.innerHTML += '<p class="z1">You Lost..</p>'
                 const Canvas = document.querySelector('.canvas');
                 const rematchBtn = document.querySelector('.rematch');
                 const startOverBtn = document.querySelector('.start-over');
-    
+                
+
+
                 rematchBtn.addEventListener('click', gameController.rematch);
                 startOverBtn.addEventListener('click', gameController.startOverGame);
                 
@@ -561,11 +580,7 @@ const render = (() => {
                     Box.textContent = gameController.board[i]; 
                     Box.style.width = '1fr';
                     Box.style.height = '1fr';
-                    if (gameController.board[i] == gameController.getForfeitTeam()) {
-                        Box.className = 'box noselect forfeitTeam';
-                    } else {
-                        Box.className = 'box noselect forfeit';
-                    }
+                    Box.className = 'box noselect';
                     Box.setAttribute('id', `${i}`);
                     Canvas.appendChild(Box);
                 }
@@ -595,9 +610,11 @@ const render = (() => {
         } else if (!gameController.getAI()) {
             if (gameController.getForfeit()) {
                 MAINCONTAINER.innerHTML += `<img class="game-title" src="images/TicTacToe.png"></img>
-                <div class="container forfeit"><div class="canvas"></div></div>
+                <div class="container"><div class="canvas blur"></div></div>
                 <div class="button-set"><button class="rematch">Rematch</button><button class="start-over">Start Over</button></div>`;
                 
+                const Container = document.querySelector('.container');
+                Container.innerHTML += `<p class="z1">${gameController.getForfeitTeam()} lost..</p>`
                 const Canvas = document.querySelector('.canvas');
                 const rematchBtn = document.querySelector('.rematch');
                 const startOverBtn = document.querySelector('.start-over');
@@ -610,12 +627,7 @@ const render = (() => {
                     Box.textContent = gameController.board[i]; 
                     Box.style.width = '1fr';
                     Box.style.height = '1fr';
-                    if (gameController.board[i] == gameController.getForfeitTeam()) {
-                        console.log('yo');
-                        Box.className = 'box noselect forfeitTeam';
-                    } else {
-                        Box.className = 'box noselect forfeit';
-                    }
+                    Box.className = 'box noselect';
                     Box.setAttribute('id', `${i}`);
                     Canvas.appendChild(Box);
                 }
