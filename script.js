@@ -277,10 +277,11 @@ const gameController = (() => {
         // AI to make its turn
         let bestScore = -Infinity
         let move;
+
         for (let i = 0; i < board.length; i++) {
             if (board[i] == null) {
                 board[i] = player2.team;
-                let score = minimax(board, 1, false);
+                let score = minimax(board, 0, false);
                 board[i] = null;
                 if (score > bestScore) {
                     bestScore = score;
@@ -295,70 +296,89 @@ const gameController = (() => {
     }
 
     let scores = {
-        'computer': 1,
-        'enemy': -1,
+        'computer': 10,
+        'enemy': -10,
         'tie': 0
     };
 
     const minimax = (board, depth, maximizingPlayer) => {
-        let result = checkWin();
+        let result = checkWin(board);
+
+        
         if (result !== null) {
-            return scores[result];
+            let score;
+
+            if (result == 'computer') {
+                score = 10 - depth;
+                return score;
+            } else if (result == 'enemy') {
+                score = depth - 10;
+                return score;
+            } else if (result =='tie') {
+                return 0;
+            }
+
         }
         
-        if (maximizingPlayer) {
+        if (maximizingPlayer == true) {
             let bestScore = -Infinity;
             for (let i = 0; i < board.length; i++) {
                 if (board[i] == null) {
                     board[i] = player2.team;
                     let score = minimax(board, depth + 1, false);
                     board[i] = null;
-                    bestScore = Math.max(score, bestScore);
+                    if (score > bestScore) {
+                        bestScore = score;
+                    }
                 }
             }
             return bestScore;
-        } else {
-            let bestScore = +Infinity;
+        } else if (maximizingPlayer == false) {
+            let bestScore = Infinity;
             for (let i = 0; i < board.length; i++) {
                 if (board[i] == null) {
                     board[i] = player1.team;
                     let score = minimax(board, depth + 1, true)
                     board[i] = null;
-                    bestScore = Math.min(score, bestScore);
+                    if (score < bestScore) {
+                        bestScore = score;
+                    }
                 }
             }
             return bestScore;
         }
     }
 
-    const checkWin = () => {
-        
-        for (let i = 0; i < winningConditions.length; i++) {
+    const checkWin = (board) => {
+        for (let i = 0; i < winningConditions.length; i++) {        // Check if any winning combinations are present on the board
             let pos1 = winningConditions[i][0];
             let pos2 = winningConditions[i][1];
             let pos3 = winningConditions[i][2];
 
-            let drawCheck = true;
-
-            for (let j = 0; j < board.length; j++) {
-                if (board[j] == null) {
-                    drawCheck = false;
-                }
-            }
-
+            
             if (board[pos1] == player1.team && board[pos2] == player1.team && board[pos3] == player1.team) {
                 return 'enemy';
             } else if (board[pos1] == player2.team && board[pos2] == player2.team && board[pos3] == player2.team) {
                 return 'computer';
-            } else if (drawCheck) {
-                return 'tie';
+            } 
+            
+        }
+
+        let count = 0;
+
+        for (let j = 0; j < board.length; j++) {                    // Check if the game is tied given no winning combinations are
+            if (board[j] == player1.team || board[j] == player2.team) {
+                count += 1;
             }
         }
 
-        return null;
-
+        if (count == 9) {
+            return 'tie';
+        } else {
+            return null
+        }
     }
-
+    
     const checker = (arr, target) => {
         let isGameWon;
         let playerArray = arr.map(x => x * 1);
